@@ -23,7 +23,7 @@ exports.preprocess_error = (err) => {
     err.status = err.status || constants.HTTP_STATUS.SERVER_ERROR
     if (err.status >= 500 && err.status < 600) {
         logger.error(err.stack)
-    } else if (err.status >= 400){
+    } else {
         logger.warn(err)
     }
 
