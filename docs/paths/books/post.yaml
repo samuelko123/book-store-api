@@ -1,0 +1,27 @@
+summary: Creates a Book
+tags:
+  - books
+  
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '../../schemas/books.yaml'
+        required:
+        - isbn
+        - name
+        - author
+        - price
+        
+responses:
+  '201':
+    description: Returns the created Book object
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: '../../schemas/mongo-ids.yaml'
+            - $ref: '../../schemas/books.yaml'
+  '400':
+    $ref: '../../responses/error-400.yaml'

@@ -1,0 +1,25 @@
+summary: Update a Book object
+tags:
+  - books
+
+parameters:
+  - name: isbn
+    in: path
+    description: ISBN of the Book object
+    required: true
+    schema:
+      type: string
+
+responses:
+  '200':
+    description: Returns the deleted Book object
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: '../../schemas/mongo-ids.yaml'
+            - $ref: '../../schemas/books.yaml'
+  '400':
+    $ref: '../../responses/error-400.yaml'
+  '404':
+    $ref: '../../responses/error-404.yaml'

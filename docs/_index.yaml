@@ -1,0 +1,18 @@
+openapi: 3.0.0
+info:
+  title: Book Store API
+  description: This API supports Book Store operation
+  version: 1.0.0
+  contact:
+    name: Samuel Ko
+    email: koshunyin@gmail.com
+servers:
+  - url: /api
+paths:
+  $ref: './paths/_index.yaml'
+components:
+  schemas:
+    $ref: './schemas/_index.yaml'
+externalDocs:
+  description: GitHub Repository
+  url: https://github.com/samuelko123/book-store-api

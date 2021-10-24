@@ -1,0 +1,10 @@
+description: Not Found
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        error:
+          type: string
+      example:
+        error: Not Found

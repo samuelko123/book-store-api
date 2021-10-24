@@ -1,0 +1,12 @@
+/books:
+  post:
+    $ref: './books/post.yaml'
+  get:
+    $ref: './books/get.yaml'
+/books/{isbn}:
+  get:
+    $ref: './books/get.one.yaml'
+  patch:
+    $ref: './books/patch.yaml'
+  delete:
+    $ref: './books/delete.yaml'

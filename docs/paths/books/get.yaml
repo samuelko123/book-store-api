@@ -1,0 +1,36 @@
+summary: Finds Book objects
+tags:
+  - books
+
+x-allow-unknown-query-parameters: true
+parameters:
+  - in: query
+    name: freeform
+    description: >-
+      <li>Mongoose queries (sort/skip/limit/select) are passed to Mongoose query</li>
+      <li>Use field names (e.g. isbn, author etc.) for keyword search (case-insensitive)</li>
+      <li>Use comparison operator (e.g. $lt, $eq, $gte etc.) for numeric fields </li>
+    schema:
+      type: object
+      example:
+        price$gte: 10
+        price$lte: 50
+        author: book abc
+        sort: -name
+        skip: 1
+        limit: 2
+        select: name author
+
+responses:
+  '200':
+    description: Returns an array of Book objects
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            allOf:
+              - $ref: '../../schemas/mongo-ids.yaml'
+              - $ref: '../../schemas/books.yaml'
+  '400':
+    $ref: '../../responses/error-400.yaml'

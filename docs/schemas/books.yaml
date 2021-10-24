@@ -1,0 +1,18 @@
+type: object
+properties:
+  isbn:
+    type: integer
+    pattern: ^[0-9]{13}$
+  name:
+    type: string
+  author:
+    type: string
+  price:
+    type: number
+    minimum: 0
+    exclusiveMinimum: true
+example:
+  isbn: 1234567890123
+  name: Book A
+  author: Author A
+  price: 9.99

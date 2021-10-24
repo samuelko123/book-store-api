@@ -1,0 +1,4 @@
+Book:
+  $ref: './books.yaml'
+MongoID:
+  $ref: './mongo-ids.yaml'
