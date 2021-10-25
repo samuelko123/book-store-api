@@ -8,11 +8,9 @@ describe('DELETE /books/:isbn', () => {
     beforeEach(async () => {
         // populate db with seed data
         try {
-            for (let record of seed_data.data) {
-                await global.request.post('/api/books')
-                    .set('Accept', 'application/json')
-                    .send(record)
-            }
+            await global.request.post('/api/books')
+                .set('Accept', 'application/json')
+                .send(seed_data.data)
         } catch (err) {
             logger.error(err)
         }
@@ -21,7 +19,7 @@ describe('DELETE /books/:isbn', () => {
     test('success - return deleted record', async () => {
         // Prepare
         let test_data = seed_data.data[0]
-        
+
         // Request
         let res = await global.request
             .delete(`/api/books/${test_data.isbn}`)

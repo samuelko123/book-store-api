@@ -8,11 +8,9 @@ describe('PATCH /books/:isbn', () => {
     beforeEach(async () => {
         // populate db with seed data
         try {
-            for (let record of seed_data.data) {
-                await global.request.post('/api/books')
-                    .set('Accept', 'application/json')
-                    .send(record)
-            }
+            await global.request.post('/api/books')
+                .set('Accept', 'application/json')
+                .send(seed_data.data)
         } catch (err) {
             logger.error(err)
         }
