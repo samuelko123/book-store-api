@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const controller = require(`${process.cwd()}/controllers/books`)
 
-router.post('/', controller.createOne)
+router.post('/', controller.create)
 router.get('/', controller.sanitiseQuery, controller.find)
 router.get('/:isbn', controller.findOne)
 router.patch('/:isbn', controller.updateOne)

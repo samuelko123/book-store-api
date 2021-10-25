@@ -1,27 +1,53 @@
-summary: Creates a Book
+summary: Creates Book object(s)
 tags:
   - books
   
 requestBody:
+  description: >
+    <li>Supply object to create single Book</li>
+    <li>Supply array of objects to create multiple Books</li>
+    <li>For array, it will commit only if all of them are fine</li>
   required: true
   content:
     application/json:
       schema:
-        $ref: '../../schemas/books.yaml'
-        required:
-        - isbn
-        - name
-        - author
-        - price
+        oneOf:
+        - $ref: '../../schemas/books.yaml'
+        - type: array
+          items:
+            allOf:
+            - $ref: '../../schemas/mongo-ids.yaml'
+            - $ref: '../../schemas/books.yaml'
+      examples:
+        Single Book:
+          value:
+            $ref: '../../examples/books.yaml#/single_without_id'
+        Multiple Books:
+          value:
+            $ref: '../../examples/books.yaml#/array_without_id'
         
 responses:
   '201':
-    description: Returns the created Book object
+    description: Returns the created Book object(s)
     content:
       application/json:
         schema:
-          allOf:
+          oneOf:
+          - allOf:
             - $ref: '../../schemas/mongo-ids.yaml'
             - $ref: '../../schemas/books.yaml'
+          - type: array
+            items:
+              allOf:
+              - $ref: '../../schemas/mongo-ids.yaml'
+              - $ref: '../../schemas/books.yaml'
+        examples:
+          Single Book:
+            value:
+              $ref: '../../examples/books.yaml#/single_with_id'
+          Multiple Books:
+            value:
+              $ref: '../../examples/books.yaml#/array_with_id'
+          
   '400':
     $ref: '../../responses/error-400.yaml'

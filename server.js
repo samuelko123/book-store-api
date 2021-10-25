@@ -1,5 +1,6 @@
 const dotenv = require('dotenv')
 const logger = require('./utils/logger')
+const db = require('./db')
 
 async function start_server() {
     try {
@@ -12,12 +13,9 @@ async function start_server() {
         await require('./doc')()
 
         // Connect to DB
-        const db = require('./db')
         if (process.env.NODE_ENV !== 'production') {
-            require('mongoose')
-            const { MongoMemoryServer } = require('mongodb-memory-server')
-            const mongo_server = await MongoMemoryServer.create()
-            const uri = mongo_server.getUri()
+            const replica = await db.create_memory_replica()
+            const uri = replica.getUri()
             await db.connect(uri)
         } else {
             await db.connect(process.env.MONGO_URI)

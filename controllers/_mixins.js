@@ -1,17 +1,33 @@
-const mongoose = require('mongoose')
 const { CustomError } = require(`${process.cwd()}/utils/error`)
 const constants = require(`${process.cwd()}/utils/constants`)
 
-exports.createOne = async function (req, res, next) {
-    try {
-        // query mongo database
-        let data = await this.model.create(req.body)
+exports.create = async function (req, res, next) {
+    if (Array.isArray(req.body)) {
+        const session = await this.model.startSession()
+        session.startTransaction()
+        try {
+            // query mongo database
+            var data = await this.model.insertMany(req.body, { session: session })
+            await session.commitTransaction()
+            session.endSession()
 
-        // return result
-        data = data.toJSON()
-        res.status(constants.HTTP_STATUS.CREATED).json(data)
-    } catch (err) {
-        next(err)
+            // return result
+            res.status(constants.HTTP_STATUS.CREATED).json(data)
+        } catch (err) {
+            session.endSession()
+            next(err)
+        }
+    }
+    else {
+        try {
+            // query mongo database
+            var data = await this.model.create(req.body)
+
+            // return result
+            res.status(constants.HTTP_STATUS.CREATED).json(data)
+        } catch (err) {
+            next(err)
+        }
     }
 }
 
@@ -93,7 +109,6 @@ exports.updateOne = async function (req, res, next) {
 
 exports.deleteOne = async function (req, res, next) {
     try {
-        console.log({ [this.id_field]: req.params[this.id_field] })
         // query mongo database
         let data = await this.model
             .findOneAndDelete({ [this.id_field]: req.params[this.id_field] })
