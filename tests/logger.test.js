@@ -27,6 +27,6 @@ describe('winston logger', () => {
         const logger = require(`${process.cwd()}/utils/logger`)
 
         // Assert
-        expect(logger.level).toEqual('info')
+        expect(logger.level).toEqual('http')
     })
 })
