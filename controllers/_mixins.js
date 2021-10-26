@@ -122,6 +122,24 @@ exports.deleteOne = async function (req, res, next) {
     }
 }
 
+exports.deleteMany = async function (req, res, next) {
+    const session = await this.model.startSession()
+    session.startTransaction()
+
+    try {
+        // query mongo database
+        let data = await this.model.deleteMany({[this.id_field]: { $in: req.body}}, { session: session })
+        await session.commitTransaction()
+        session.endSession()
+
+        // return result
+        res.json(data)
+    } catch (err) {
+        session.endSession()
+        next(err)
+    }
+}
+
 exports.sanitiseQuery = async function (req, res, next) {
     // trim and lowercase all the fields
     for (let field in req.query) {
