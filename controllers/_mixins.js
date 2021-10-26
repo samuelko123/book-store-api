@@ -31,7 +31,22 @@ exports.create = async function (req, res, next) {
     }
 }
 
-exports.find = async function (req, res, next) {
+exports.findOne = async function (req, res, next) {
+    try {
+        // query mongo database
+        let data = await this.model
+            .findOne({ [this.id_field]: req.params[this.id_field] })
+            .orFail()
+            .lean()
+
+        // return result
+        res.json(data)
+    } catch (err) {
+        next(err)
+    }
+}
+
+exports.findMany = async function (req, res, next) {
     try {
         // build query
         let mongo_select = req.query.select || ''
@@ -69,21 +84,6 @@ exports.find = async function (req, res, next) {
             .skip(mongo_skip)
             .limit(mongo_limit)
             .select(mongo_select)
-
-        // return result
-        res.json(data)
-    } catch (err) {
-        next(err)
-    }
-}
-
-exports.findOne = async function (req, res, next) {
-    try {
-        // query mongo database
-        let data = await this.model
-            .findOne({ [this.id_field]: req.params[this.id_field] })
-            .orFail()
-            .lean()
 
         // return result
         res.json(data)
