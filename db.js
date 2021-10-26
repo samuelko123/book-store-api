@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { MongoMemoryReplSet } = require('mongodb-memory-server')
 mongoose.Promise = global.Promise
 
 const logger = require('./utils/logger')
@@ -27,6 +26,7 @@ module.exports.clear = async () => {
 }
 
 module.exports.create_memory_replica = async () => {
+    const { MongoMemoryReplSet } = require('mongodb-memory-server')
     return await MongoMemoryReplSet.create({
         replSet: { count: 1, storageEngine: 'wiredTiger' }
     })
