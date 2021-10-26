@@ -1,0 +1,25 @@
+description: Returns update result
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        acknowledged:
+          type: boolean
+        modifiedCount:
+          type: integer
+        upsertedId:
+          type: array
+          nullable: true
+          items:
+            $ref: '../schemas/mongo-ids.yaml'
+        upsertedCount:
+          type: integer
+        matchedCount:
+          type: integer
+      example:
+        acknowledged: true
+        modifiedCount: 2  
+        upsertedId: null
+        upsertedCount: 0
+        matchedCount: 2

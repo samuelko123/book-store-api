@@ -3,6 +3,8 @@
     $ref: './books/post.yaml'
   get:
     $ref: './books/get.many.yaml'
+  patch:
+    $ref: './books/patch.many.yaml'
   delete:
     $ref: './books/delete.many.yaml'
 /books/{isbn}:

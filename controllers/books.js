@@ -7,6 +7,7 @@ function BookController() {
     this.create = mixins.create.bind(this)
     this.findOne = mixins.findOne.bind(this)
     this.updateOne = mixins.updateOne.bind(this)
+    this.updateMany = mixins.updateMany.bind(this)
     this.deleteOne = mixins.deleteOne.bind(this)
     this.deleteMany = mixins.deleteMany.bind(this)
     this.findMany = mixins.findMany.bind(this)

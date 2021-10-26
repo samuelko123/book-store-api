@@ -107,6 +107,28 @@ exports.updateOne = async function (req, res, next) {
     }
 }
 
+exports.updateMany = async function (req, res, next) {
+    const session = await this.model.startSession()
+    session.startTransaction()
+
+    try {
+        // query mongo database
+        let data = await this.model.updateMany(
+            { [this.id_field]: { $in: req.body[this.id_field] } },
+            req.body.update,
+            { session: session, upsert: false }
+        )
+        await session.commitTransaction()
+        session.endSession()
+
+        // return result
+        res.json(data)
+    } catch (err) {
+        session.endSession()
+        next(err)
+    }
+}
+
 exports.deleteOne = async function (req, res, next) {
     try {
         // query mongo database
@@ -128,7 +150,7 @@ exports.deleteMany = async function (req, res, next) {
 
     try {
         // query mongo database
-        let data = await this.model.deleteMany({[this.id_field]: { $in: req.body}}, { session: session })
+        let data = await this.model.deleteMany({ [this.id_field]: { $in: req.body } }, { session: session })
         await session.commitTransaction()
         session.endSession()
 
