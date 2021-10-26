@@ -18,7 +18,7 @@ requestBody:
 
 responses:
   '200':
-    description: Returns the deleted Book objects
+    description: Returns deleted count
     content:
       application/json:
         schema:
@@ -26,8 +26,6 @@ responses:
           properties:
             deletedCount:
               type: integer
-        example:
-          $ref: '../../examples/books.yaml#/array_with_id'
   '400':
     $ref: '../../responses/error-400.yaml'
   '404':
