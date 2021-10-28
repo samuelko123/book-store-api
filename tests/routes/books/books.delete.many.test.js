@@ -43,7 +43,7 @@ describe('DELETE /books', () => {
     test('duplicate key - still success', async () => {
         // Prepare
         let test_data = seed_data.data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
-        test_data = test_data + '&isbn=' + seed_data.data[0].isbn
+        test_data += '&isbn=' + seed_data.data[0].isbn
 
         // Request
         let res1 = await global.request
@@ -67,7 +67,7 @@ describe('DELETE /books', () => {
     test('invalid key - give error', async () => {
         // Prepare
         let test_data = seed_data.data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
-        test_data = test_data + '&isbn=invalid isbn'
+        test_data += '&isbn=invalid isbn'
 
         // Request
         let res1 = await global.request

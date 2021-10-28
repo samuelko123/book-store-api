@@ -1,11 +1,11 @@
 require(`${process.cwd()}/tests/fixtures/request`)
 require(`${process.cwd()}/tests/fixtures/mongo-db`)
 const model = require(`${process.cwd()}/models/books`)
-const constants = require(`${process.cwd()}/utils/constants`)
 const seed_data = require(`${process.cwd()}/tests/fixtures/books`)
+const constants = require(`${process.cwd()}/utils/constants`)
 process.env.TEST_SUITE = __filename
 
-describe('POST /books', () => {
+describe('PATCH /books', () => {
     beforeEach(async () => {
         // populate db with seed data
         try {
@@ -19,15 +19,15 @@ describe('POST /books', () => {
 
     test('happy path', async () => {
         // Prepare
-        let test_data = [].concat(seed_data.data).slice(0, 2)
+        let test_data = [].concat(seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         let body = {
-            isbn: test_data.map(elem => elem.isbn),
-            update: { name: 'Snow White', author: 'John Doe' }
+            name: 'Snow White',
+            author: 'John Doe'
         }
 
         // Request
         let res1 = await global.request
-            .patch('/api/books')
+            .patch(`/api/books?${test_data}`)
             .set('Accept', 'application/json')
             .send(body)
 
@@ -64,17 +64,17 @@ describe('POST /books', () => {
 
     test('duplicate key - no problem', async () => {
         // Prepare
-        let test_data = [].concat(seed_data.data).slice(0, 2)
-        test_data.push({ isbn: 1234567890121 }) // duplicate key
+        let test_data = [].concat(seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        test_data += '&isbn=1234567890121' // duplicate key
 
         let body = {
-            isbn: test_data.map(elem => elem.isbn),
-            update: { name: 'Snow White', author: 'John Doe' }
+            name: 'Snow White',
+            author: 'John Doe'
         }
 
         // Request
         let res1 = await global.request
-            .patch('/api/books')
+            .patch(`/api/books?${test_data}`)
             .set('Accept', 'application/json')
             .send(body)
 
@@ -111,17 +111,17 @@ describe('POST /books', () => {
 
     test('non-existing key - no problem', async () => {
         // Prepare
-        let test_data = [].concat(seed_data.data).slice(0, 2)
-        test_data.push({ isbn: 1112223334445 }) // non-existing
+        let test_data = [].concat(seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        test_data += '&isbn=1112223334445' // duplicate key
 
         let body = {
-            isbn: test_data.map(elem => elem.isbn),
-            update: { name: 'Snow White', author: 'John Doe' }
+            name: 'Snow White',
+            author: 'John Doe'
         }
 
         // Request
         let res1 = await global.request
-            .patch('/api/books')
+            .patch(`/api/books?${test_data}`)
             .set('Accept', 'application/json')
             .send(body)
 
@@ -156,10 +156,11 @@ describe('POST /books', () => {
         )
     })
 
-    test('missing field - isbn', async () => {
+    test('no isbn - expect error', async () => {
         // Prepare
         let body = {
-            update: { name: 'Snow White', author: 'John Doe' }
+            name: 'Snow White',
+            author: 'John Doe'
         }
 
         // Request
@@ -184,25 +185,21 @@ describe('POST /books', () => {
         expect(res2.body.length).toEqual(0)
     })
 
-    test('missing field - update', async () => {
+    test('no request body - expect error', async () => {
         // Prepare
         let test_data = [].concat(seed_data.data).slice(0, 2)
-        let body = {
-            isbn: test_data.map(elem => elem.isbn),
-        }
 
         // Request
         let res1 = await global.request
-            .patch('/api/books')
+            .patch(`/api/books?${test_data}`)
             .set('Accept', 'application/json')
-            .send(body)
 
         let res2 = await global.request
             .get('/api/books?author=John Doe')
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res1.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res1.status).toEqual(constants.HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE)
         expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             error: expect.any(String)
@@ -215,10 +212,10 @@ describe('POST /books', () => {
 
     test('db error - no record updated', async () => {
         // Prepare
-        let test_data = [].concat(seed_data.data).slice(0, 2)
+        let test_data = [].concat(seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         let body = {
-            isbn: test_data.map(elem => elem.isbn),
-            update: { name: 'Snow White', author: 'John Doe' }
+            name: 'Snow White',
+            author: 'John Doe'
         }
 
         let spy = {
@@ -229,7 +226,7 @@ describe('POST /books', () => {
 
         // Request
         let res1 = await global.request
-            .patch('/api/books')
+            .patch(`/api/books?${test_data}`)
             .set('Accept', 'application/json')
             .send(body)
 

@@ -2,35 +2,12 @@ summary: Update Books
 tags:
   - books
 
-requestBody:
-  description: >
-    <li>isbn: List of ISBNs to be updated</li>
-    <li>update: key/value pair(s) to be updated on the ISBNs</li>
-    <br />
-  required: true
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          isbn:
-            type: array
-            items:
-              type: integer
-              pattern: ^[0-9]{13}$
-          update:
-            type: object
-        required:
-          - isbn
-          - update
-      example:
-        isbn:
-          - 1234567890121
-          - 1234567890122
-        update:
-          name: 'Snow White'
-          author: 'John Doe'
+parameters:
+  - $ref: '../../_index.yaml#/components/parameters/ISBNs'
 
+requestBody:
+  $ref: '../../_index.yaml#/components/requestBodies/BookUpdate'
+  
 responses:
   '200':
     $ref: '../../_index.yaml#/components/responses/PatchMany200'

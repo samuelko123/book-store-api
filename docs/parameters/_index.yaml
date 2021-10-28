@@ -1,2 +1,5 @@
 ISBN:
   $ref: './isbn.yaml'
+
+ISBNs:
+  $ref: './isbns.yaml'

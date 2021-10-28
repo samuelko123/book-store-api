@@ -111,8 +111,8 @@ exports.updateMany = async function (req, res, next) {
     try {
         // query mongo database
         let data = await this.model.updateMany(
-            { [this.id_field]: { $in: req.body[this.id_field] } },
-            req.body.update,
+            { [this.id_field]: { $in: req.query[this.id_field] } },
+            req.body,
             { session: session, upsert: false }
         )
         await session.commitTransaction()

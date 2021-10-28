@@ -5,6 +5,7 @@ module.exports = Object.freeze({
         FOUND: 302,
         BAD_REQUEST: 400,
         NOT_FOUND: 404,
+        UNSUPPORTED_MEDIA_TYPE: 415,
         SERVER_ERROR: 500,
     },
     MONGO_USER_ERRORS: [

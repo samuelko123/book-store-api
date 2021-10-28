@@ -3,6 +3,6 @@ in: path
 description: ISBN of the Book object
 required: true
 schema:
-  type: number
+  $ref: '../_index.yaml#/components/schemas/Book/properties/isbn'
 example:
   1234567890121

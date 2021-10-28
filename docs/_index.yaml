@@ -13,6 +13,8 @@ paths:
 components:
   parameters:
     $ref: './parameters/_index.yaml'
+  requestBodies:
+    $ref: './request-bodies/_index.yaml'
   responses:
     $ref: './responses/_index.yaml'
   schemas:
