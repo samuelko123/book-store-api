@@ -1,0 +1,6 @@
+type: object
+properties:
+  deletedCount:
+    type: integer
+example:
+  deletedCount: 2

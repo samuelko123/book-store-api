@@ -2,9 +2,6 @@ description: Not Found
 content:
   application/json:
     schema:
-      type: object
-      properties:
-        error:
-          type: string
-      example:
-        error: Not Found
+      $ref: '../_index.yaml#/components/schemas/Error'
+    example:
+      error: 'No document found for query "{ isbn: 1112223334445 }" on model "books"'

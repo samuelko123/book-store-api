@@ -1,53 +1,40 @@
-summary: Creates Book object(s)
+summary: Creates Book(s)
 tags:
   - books
   
 requestBody:
+  required: true
   description: >
     <li>Supply object to create single Book</li>
     <li>Supply array of objects to create multiple Books</li>
     <li>For array, it will commit only if all of them are fine</li>
-  required: true
+    <br />
   content:
     application/json:
       schema:
         oneOf:
-        - $ref: '../../schemas/books.yaml'
-        - type: array
-          items:
-            allOf:
-            - $ref: '../../schemas/mongo-ids.yaml'
-            - $ref: '../../schemas/books.yaml'
+        - $ref: '../../_index.yaml#/components/schemas/Book'
+        - $ref: '../../_index.yaml#/components/schemas/Books'
       examples:
-        Single Book:
-          value:
-            $ref: '../../examples/books.yaml#/single_without_id'
-        Multiple Books:
-          value:
-            $ref: '../../examples/books.yaml#/array_without_id'
+        Book:
+          $ref: '../../_index.yaml#/components/examples/Book'
+        Books:
+          $ref: '../../_index.yaml#/components/examples/Books'
         
 responses:
   '201':
-    description: Returns the created Book object(s)
+    description: Returns Book(s)
     content:
       application/json:
         schema:
           oneOf:
-          - allOf:
-            - $ref: '../../schemas/mongo-ids.yaml'
-            - $ref: '../../schemas/books.yaml'
-          - type: array
-            items:
-              allOf:
-              - $ref: '../../schemas/mongo-ids.yaml'
-              - $ref: '../../schemas/books.yaml'
+          - $ref: '../../_index.yaml#/components/schemas/BookDocument'
+          - $ref: '../../_index.yaml#/components/schemas/BookDocuments'
         examples:
-          Single Book:
-            value:
-              $ref: '../../examples/books.yaml#/single_with_id'
-          Multiple Books:
-            value:
-              $ref: '../../examples/books.yaml#/array_with_id'
+          BookDocument:
+            $ref: '../../_index.yaml#/components/examples/BookDocument'
+          BookDocuments:
+            $ref: '../../_index.yaml#/components/examples/BookDocuments'
           
   '400':
-    $ref: '../../responses/error-400.yaml'
+    $ref: '../../_index.yaml#/components/responses/Error400'

@@ -1,0 +1,8 @@
+name: isbn
+in: path
+description: ISBN of the Book object
+required: true
+schema:
+  type: number
+example:
+  1234567890121

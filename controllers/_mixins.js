@@ -37,8 +37,7 @@ exports.findOne = async function (req, res, next) {
         let data = await this.model
             .findOne({ [this.id_field]: req.params[this.id_field] })
             .orFail()
-            .lean()
-
+            
         // return result
         res.json(data)
     } catch (err) {
@@ -79,8 +78,7 @@ exports.findMany = async function (req, res, next) {
         // query mongo database
         let data = await this.model
             .find(mongo_query)
-            .lean()
-            .sort(mongo_sort)
+                        .sort(mongo_sort)
             .skip(mongo_skip)
             .limit(mongo_limit)
             .select(mongo_select)
@@ -98,8 +96,7 @@ exports.updateOne = async function (req, res, next) {
         let data = await this.model
             .findOneAndUpdate({ [this.id_field]: req.params[this.id_field] }, req.body, { new: true })
             .orFail()
-            .lean()
-
+            
         // return reuslt
         res.json(data)
     } catch (err) {
@@ -135,8 +132,7 @@ exports.deleteOne = async function (req, res, next) {
         let data = await this.model
             .findOneAndDelete({ [this.id_field]: req.params[this.id_field] })
             .orFail()
-            .lean()
-
+            
         // return result
         res.json(data)
     } catch (err) {

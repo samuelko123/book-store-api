@@ -2,9 +2,6 @@ description: Bad Request
 content:
   application/json:
     schema:
-      type: object
-      properties:
-        error:
-          type: string
-      example:
-        error: Bad Request
+      $ref: '../_index.yaml#/components/schemas/Error'
+    example:
+      error: 'request.body should have required property "isbn"'

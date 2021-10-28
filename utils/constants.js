@@ -17,5 +17,9 @@ module.exports = Object.freeze({
         info: 'green',
         http: 'magenta',
         debug: 'white',
+    },
+    OPEN_API_JSON: {
+        URL: '/docs/openapi.json',
+        FILE: './docs/openapi.json'
     }
 })

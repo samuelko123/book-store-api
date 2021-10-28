@@ -1,0 +1,11 @@
+value:
+  - _id: 616e3e2f5df30eb71e3b78d2
+    isbn: 1234567890122
+    name: Book B
+    author: Author B
+    price: 10
+  - _id: 616e3e2f5df30eb71e3b78d3
+    isbn: 1234567890123
+    name: Book C
+    author: Author C
+    price: 20

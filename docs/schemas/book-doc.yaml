@@ -1,0 +1,4 @@
+type: object
+allOf:
+  - $ref: '../_index.yaml#/components/schemas/MongoID'
+  - $ref: '../_index.yaml#/components/schemas/Book'

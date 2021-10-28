@@ -6,7 +6,7 @@ describe('doc json', () => {
     test('returns openapi json', async () => {
         // Request
         let res = await global.request
-            .get('/docs/openapi.json')
+            .get(constants.OPEN_API_JSON.URL)
             .set('Accept', 'application/json')
 
         // Assert

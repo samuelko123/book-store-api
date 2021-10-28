@@ -1,9 +1,12 @@
-summary: Update many Book objects
+summary: Update Books
 tags:
   - books
 
 requestBody:
-  description: List of ISBN and field/value to be updated
+  description: >
+    <li>isbn: List of ISBNs to be updated</li>
+    <li>update: key/value pair(s) to be updated on the ISBNs</li>
+    <br />
   required: true
   content:
     application/json:
@@ -30,8 +33,6 @@ requestBody:
 
 responses:
   '200':
-    $ref: '../../responses/update-many-200.yaml'
+    $ref: '../../_index.yaml#/components/responses/PatchMany200'
   '400':
-    $ref: '../../responses/error-400.yaml'
-  '404':
-    $ref: '../../responses/error-404.yaml'
+    $ref: '../../_index.yaml#/components/responses/Error400'

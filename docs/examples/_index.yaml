@@ -1,0 +1,8 @@
+Book:
+  $ref: './book.yaml'
+Books:
+  $ref: './books.yaml'
+BookDocument:
+  $ref: './book-doc.yaml'
+BookDocuments:
+  $ref: './book-docs.yaml'

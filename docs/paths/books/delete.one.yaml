@@ -1,25 +1,22 @@
-summary: Delete a Book object
+summary: Delete a Book
 tags:
   - books
 
 parameters:
-  - name: isbn
-    in: path
-    description: ISBN of the Book object
-    required: true
-    schema:
-      type: string
+  - $ref: '../../_index.yaml#/components/parameters/ISBN'
 
 responses:
   '200':
-    description: Returns the deleted Book object
+    description: Returns the deleted BookDocument
     content:
       application/json:
         schema:
-          allOf:
-            - $ref: '../../schemas/mongo-ids.yaml'
-            - $ref: '../../schemas/books.yaml'
+          $ref: '../../_index.yaml#/components/schemas/BookDocument'
+        examples:
+          BookDocument:
+            $ref: '../../_index.yaml#/components/examples/BookDocument'
+
   '400':
-    $ref: '../../responses/error-400.yaml'
+    $ref: '../../_index.yaml#/components/responses/Error400'
   '404':
-    $ref: '../../responses/error-404.yaml'
+    $ref: '../../_index.yaml#/components/responses/Error404'

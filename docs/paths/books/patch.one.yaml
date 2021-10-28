@@ -1,13 +1,24 @@
-summary: Find a Book
+summary: Update a Book
 tags:
   - books
 
 parameters:
   - $ref: '../../_index.yaml#/components/parameters/ISBN'
 
+requestBody:
+  required: true
+  description: Any key/value pair(s) in Book schema
+  content:
+    application/json:
+      schema:
+        type: object
+      example:
+        name: 'Snow White'
+        author: 'John Doe'
+
 responses:
   '200':
-    description: Returns a Book
+    description: Returns the created Book object
     content:
       application/json:
         schema:

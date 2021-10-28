@@ -1,0 +1,10 @@
+Error400:
+  $ref: './error-400.yaml'
+Error404:
+  $ref: './error-404.yaml'
+PatchMany200:
+  $ref: './patch-many-200.yaml'
+DeleteMany200:
+  $ref: './delete-many-200.yaml'
+GetMany200:
+  $ref: './get-many-200.yaml'

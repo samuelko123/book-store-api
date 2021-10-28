@@ -39,8 +39,8 @@ module.exports.create = async () => {
     })
 
     // Documentation route
-    app.get('/docs/openapi.json', (req, res, next) => {
-        res.json(require('./docs/openapi.json'))
+    app.get(constants.OPEN_API_JSON.URL, (req, res, next) => {
+        res.json(require(constants.OPEN_API_JSON.FILE))
     })
 
     app.use(
@@ -49,7 +49,7 @@ module.exports.create = async () => {
         swaggerUi.setup(null, {
             customSiteTitle: 'Book Store API',
             swaggerOptions: {
-                url: '/docs/openapi.json'
+                url: constants.OPEN_API_JSON.URL
             }
         })
     )
@@ -57,7 +57,7 @@ module.exports.create = async () => {
     // Install API validation
     app.use(
         OpenApiValidator.middleware({
-            apiSpec: './docs/openapi.json',
+            apiSpec: constants.OPEN_API_JSON.FILE,
             validateRequests: true,
             validateResponses: (process.env.NODE_ENV !== 'production'),
             validateApiSpec: true,

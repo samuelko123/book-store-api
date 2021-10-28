@@ -11,6 +11,6 @@
   get:
     $ref: './books/get.one.yaml'
   patch:
-    $ref: './books/patch.yaml'
+    $ref: './books/patch.one.yaml'
   delete:
     $ref: './books/delete.one.yaml'
