@@ -2,18 +2,18 @@ summary: Delete Books
 tags:
   - books
 
-requestBody:
-  required: true
-  description: ISBN of the Book objects to be deleted
-  content:
-    application/json:
-      schema:
-        type: array
-        items:
-          $ref: '../../_index.yaml#/components/schemas/Book/properties/isbn'
-      example:
-        - 1234567890121
-        - 1234567890122
+parameters:
+  - name: isbn
+    in: query
+    required: true
+    description: ISBN of the Books to be deleted
+    schema:
+      type: array
+      items:
+        $ref: '../../_index.yaml#/components/schemas/Book/properties/isbn'
+    example:
+      - 1234567890121
+      - 1234567890122
 
 responses:
   '200':

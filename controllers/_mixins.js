@@ -146,7 +146,7 @@ exports.deleteMany = async function (req, res, next) {
 
     try {
         // query mongo database
-        let data = await this.model.deleteMany({ [this.id_field]: { $in: req.body } }, { session: session })
+        let data = await this.model.deleteMany({ [this.id_field]: { $in: req.query[this.id_field] } }, { session: session })
         await session.commitTransaction()
         session.endSession()
 

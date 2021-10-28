@@ -19,13 +19,12 @@ describe('DELETE /books', () => {
 
     test('happy path - return deleted count', async () => {
         // Prepare
-        let test_data = seed_data.data.slice(0, 2).map(x => x.isbn)
+        let test_data = seed_data.data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
 
         // Request
         let res1 = await global.request
-            .delete(`/api/books`)
+            .delete(`/api/books?${test_data}`)
             .set('Accept', 'application/json')
-            .send(test_data)
 
         let res2 = await global.request
             .get('/api/books')
@@ -43,14 +42,13 @@ describe('DELETE /books', () => {
 
     test('duplicate key - still success', async () => {
         // Prepare
-        let test_data = seed_data.data.slice(0, 2).map(x => x.isbn)
-        test_data.push(seed_data.data[0].isbn)
+        let test_data = seed_data.data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        test_data = test_data + '&isbn=' + seed_data.data[0].isbn
 
         // Request
         let res1 = await global.request
-            .delete('/api/books')
+            .delete(`/api/books?${test_data}`)
             .set('Accept', 'application/json')
-            .send(test_data)
 
         let res2 = await global.request
             .get('/api/books')
@@ -68,14 +66,13 @@ describe('DELETE /books', () => {
 
     test('invalid key - give error', async () => {
         // Prepare
-        let test_data = seed_data.data.slice(0, 2).map(x => x.isbn)
-        test_data.push('invalid isbn')
+        let test_data = seed_data.data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        test_data = test_data + '&isbn=invalid isbn'
 
         // Request
         let res1 = await global.request
-            .delete('/api/books')
+            .delete(`/api/books?${test_data}`)
             .set('Accept', 'application/json')
-            .send(test_data)
 
         let res2 = await global.request
             .get('/api/books')
@@ -95,7 +92,7 @@ describe('DELETE /books', () => {
 
     test('db error - no record deleted', async () => {
         // Prepare
-        let test_data = seed_data.data.slice(0, 2).map(x => x.isbn)
+        let test_data = seed_data.data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         let spy = {
             deleteMany: jest.spyOn(model, 'deleteMany').mockImplementation(() => {
                 throw Error('Unexpected Error')
@@ -104,9 +101,8 @@ describe('DELETE /books', () => {
 
         // Request
         let res1 = await global.request
-            .delete('/api/books')
+            .delete(`/api/books?${test_data}`)
             .set('Accept', 'application/json')
-            .send(test_data)
 
         let res2 = await global.request
             .get('/api/books')
