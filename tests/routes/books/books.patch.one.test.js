@@ -2,6 +2,8 @@ process.env.TEST_SUITE = __filename
 
 describe('PATCH /books/:isbn', () => {
     test('success - return updated record', async () => {
+        console.log(global.seed_data.data)
+
         // Prepare
         let isbn = 1234567890121
         let test_data = {
