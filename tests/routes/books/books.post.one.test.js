@@ -1,6 +1,3 @@
-require(`${process.cwd()}/tests/fixtures/request`)
-require(`${process.cwd()}/tests/fixtures/mongo-db`)
-const constants = require(`${process.cwd()}/utils/constants`)
 process.env.TEST_SUITE = __filename
 
 describe('POST /books', () => {
@@ -20,7 +17,7 @@ describe('POST /books', () => {
             .send(test_data)
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.CREATED)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.CREATED)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             _id: expect.any(String),
@@ -52,8 +49,8 @@ describe('POST /books', () => {
             .send(test_data)
 
         // Assert
-        expect(res1.status).toEqual(constants.HTTP_STATUS.CREATED)
-        expect(res2.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.CREATED)
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body).toEqual({
             error: expect.any(String)
@@ -76,7 +73,7 @@ describe('POST /books', () => {
             .send(test_data)
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
@@ -99,7 +96,7 @@ describe('POST /books', () => {
             .send(test_data)
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
@@ -122,7 +119,7 @@ describe('POST /books', () => {
             .send(test_data)
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
@@ -146,7 +143,7 @@ describe('POST /books', () => {
             .send(test_data)
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),

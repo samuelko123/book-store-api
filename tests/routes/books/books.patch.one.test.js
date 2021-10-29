@@ -1,21 +1,6 @@
-require(`${process.cwd()}/tests/fixtures/request`)
-require(`${process.cwd()}/tests/fixtures/mongo-db`)
-const seed_data = require(`${process.cwd()}/tests/fixtures/books`)
-const constants = require(`${process.cwd()}/utils/constants`)
 process.env.TEST_SUITE = __filename
 
 describe('PATCH /books/:isbn', () => {
-    beforeEach(async () => {
-        // populate db with seed data
-        try {
-            await global.request.post('/api/books')
-                .set('Accept', 'application/json')
-                .send(seed_data.data)
-        } catch (err) {
-            logger.error(err)
-        }
-    })
-
     test('success - return updated record', async () => {
         // Prepare
         let isbn = 1234567890121
@@ -32,7 +17,7 @@ describe('PATCH /books/:isbn', () => {
             .send(test_data)
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             _id: expect.any(String),
@@ -58,7 +43,7 @@ describe('PATCH /books/:isbn', () => {
             .send(test_data)
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),
@@ -80,7 +65,7 @@ describe('PATCH /books/:isbn', () => {
             .send(test_data)
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.NOT_FOUND)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),
@@ -102,7 +87,7 @@ describe('PATCH /books/:isbn', () => {
             .send(test_data)
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),
@@ -125,7 +110,7 @@ describe('PATCH /books/:isbn', () => {
             .send(test_data)
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),
@@ -148,7 +133,7 @@ describe('PATCH /books/:isbn', () => {
             .send(test_data)
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),

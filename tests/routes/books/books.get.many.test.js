@@ -1,21 +1,6 @@
-require(`${process.cwd()}/tests/fixtures/request`)
-require(`${process.cwd()}/tests/fixtures/mongo-db`)
-const seed_data = require(`${process.cwd()}/tests/fixtures/books`)
-const constants = require(`${process.cwd()}/utils/constants`)
 process.env.TEST_SUITE = __filename
 
 describe('GET /books', () => {
-    beforeEach(async () => {
-        // populate db with seed data
-        try {
-            await global.request.post('/api/books')
-                .set('Accept', 'application/json')
-                .send(seed_data.data)
-        } catch (err) {
-            logger.error(err)
-        }
-    })
-
     test('no filters', async () => {
         // Request
         let res = await global.request
@@ -23,9 +8,9 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.headers['content-type']).toMatch(/json/)
-        expect(res.body.length).toEqual(seed_data.data.length)
+        expect(res.body.length).toEqual(global.seed_data.data.length)
         expect(res.body).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
@@ -46,7 +31,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body.length).toEqual(2)
     })
@@ -58,7 +43,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body.length).toEqual(3)
     })
@@ -70,9 +55,9 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.headers['content-type']).toMatch(/json/)
-        expect(res.body.length).toEqual(seed_data.data.length)
+        expect(res.body.length).toEqual(global.seed_data.data.length)
         expect(res.body).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({
@@ -90,7 +75,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body.map(x => x.name)).toEqual(['Book A', 'Book AB', 'Book AC', 'Book D', 'Book E'])
     })
@@ -102,7 +87,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body.map(x => x.name)).toEqual(['Book E', 'Book D', 'Book AC', 'Book AB', 'Book A'])
     })
@@ -114,7 +99,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body.map(x => x.name)).toEqual(['Book D', 'Book E'])
     })
@@ -126,7 +111,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body.map(x => x.name)).toEqual(['Book D'])
     })
@@ -138,7 +123,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
@@ -152,7 +137,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
@@ -166,7 +151,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
@@ -180,7 +165,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
@@ -194,7 +179,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
@@ -208,7 +193,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
@@ -222,7 +207,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
@@ -236,7 +221,7 @@ describe('GET /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual([
             {

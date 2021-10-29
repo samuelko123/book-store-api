@@ -1,8 +1,11 @@
 module.exports = {
     testEnvironment: 'node',
     testMatch: ['<rootDir>/tests/**/*.test.js'],
-    // testMatch: ['<rootDir>/tests/**/books.patch.many.test.js'],
+    // testMatch: ['<rootDir>/tests/**/books.delete.many.test.js'],
+    testEnvironment: '<rootDir>/tests/fixtures/test-environment.js',
+    setupFilesAfterEnv: ['<rootDir>/tests/fixtures/test-setup.js'],
+    testTimeout: 10 * 1000, // 10s
     maxWorkers: '50%',
-    slowTestThreshold: 10,
     collectCoverage: true,
+    restoreMocks: true,
 }

@@ -1,25 +1,10 @@
-require(`${process.cwd()}/tests/fixtures/request`)
-require(`${process.cwd()}/tests/fixtures/mongo-db`)
 const model = require(`${process.cwd()}/models/books`)
-const seed_data = require(`${process.cwd()}/tests/fixtures/books`)
-const constants = require(`${process.cwd()}/utils/constants`)
 process.env.TEST_SUITE = __filename
 
 describe('PATCH /books', () => {
-    beforeEach(async () => {
-        // populate db with seed data
-        try {
-            await global.request.post('/api/books')
-                .set('Accept', 'application/json')
-                .send(seed_data.data)
-        } catch (err) {
-            logger.error(err)
-        }
-    })
-
     test('happy path', async () => {
         // Prepare
-        let test_data = [].concat(seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        let test_data = [].concat(global.seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         let body = {
             name: 'Snow White',
             author: 'John Doe'
@@ -36,7 +21,7 @@ describe('PATCH /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res1.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             acknowledged: true,
@@ -46,7 +31,7 @@ describe('PATCH /books', () => {
             matchedCount: 2
         })
 
-        expect(res2.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body.length).toEqual(2)
         expect(res2.body).toEqual(
@@ -64,7 +49,7 @@ describe('PATCH /books', () => {
 
     test('duplicate key - no problem', async () => {
         // Prepare
-        let test_data = [].concat(seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        let test_data = [].concat(global.seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         test_data += '&isbn=1234567890121' // duplicate key
 
         let body = {
@@ -83,7 +68,7 @@ describe('PATCH /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res1.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             acknowledged: true,
@@ -93,7 +78,7 @@ describe('PATCH /books', () => {
             matchedCount: 2
         })
 
-        expect(res2.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body.length).toEqual(2)
         expect(res2.body).toEqual(
@@ -111,7 +96,7 @@ describe('PATCH /books', () => {
 
     test('non-existing key - no problem', async () => {
         // Prepare
-        let test_data = [].concat(seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        let test_data = [].concat(global.seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         test_data += '&isbn=1112223334445' // duplicate key
 
         let body = {
@@ -130,7 +115,7 @@ describe('PATCH /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res1.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             acknowledged: true,
@@ -140,7 +125,7 @@ describe('PATCH /books', () => {
             matchedCount: 2
         })
 
-        expect(res2.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body.length).toEqual(2)
         expect(res2.body).toEqual(
@@ -174,20 +159,20 @@ describe('PATCH /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res1.status).toEqual(constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             error: expect.any(String)
         })
 
-        expect(res2.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body.length).toEqual(0)
     })
 
     test('no request body - expect error', async () => {
         // Prepare
-        let test_data = [].concat(seed_data.data).slice(0, 2)
+        let test_data = [].concat(global.seed_data.data).slice(0, 2)
 
         // Request
         let res1 = await global.request
@@ -199,20 +184,20 @@ describe('PATCH /books', () => {
             .set('Accept', 'application/json')
 
         // Assert
-        expect(res1.status).toEqual(constants.HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE)
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE)
         expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             error: expect.any(String)
         })
 
-        expect(res2.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body.length).toEqual(0)
     })
 
     test('db error - no record updated', async () => {
         // Prepare
-        let test_data = [].concat(seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        let test_data = [].concat(global.seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         let body = {
             name: 'Snow White',
             author: 'John Doe'
@@ -237,13 +222,13 @@ describe('PATCH /books', () => {
         // Assert
         expect(spy.updateMany).toHaveBeenCalledTimes(1)
 
-        expect(res1.status).toEqual(constants.HTTP_STATUS.SERVER_ERROR)
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.SERVER_ERROR)
         expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             error: expect.any(String)
         })
 
-        expect(res2.status).toEqual(constants.HTTP_STATUS.OK)
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body.length).toEqual(0) // no records updated
     })

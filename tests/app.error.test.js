@@ -1,7 +1,5 @@
-require(`${process.cwd()}/tests/fixtures/request`)
 const empty = require(`${process.cwd()}/utils/empty`)
 const error_handler = require(`${process.cwd()}/utils/error_handler`)
-const constants = require(`${process.cwd()}/utils/constants`)
 const logger = require(`${process.cwd()}/utils/logger`)
 process.env.TEST_SUITE = __filename
 
@@ -11,7 +9,7 @@ describe('routing error handling', () => {
         let res = await global.request.get('/no-such-path')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.NOT_FOUND)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)
         expect(res.body).toEqual({
             error: 'Not Found'
         })
@@ -30,7 +28,7 @@ describe('routing error handling', () => {
         let res = await global.request.get('/error-path')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.SERVER_ERROR)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.SERVER_ERROR)
         expect(res.body).toEqual({
             error: 'Unexpected Error'
         })
@@ -51,7 +49,7 @@ describe('routing error handling', () => {
         let res = await global.request.get('/no-such-path')
 
         // Assert
-        expect(res.status).toEqual(constants.HTTP_STATUS.NOT_FOUND)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)
         expect(res.body).toEqual({
             error: 'Not Found'
         })
