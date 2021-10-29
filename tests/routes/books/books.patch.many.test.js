@@ -4,7 +4,9 @@ process.env.TEST_SUITE = __filename
 describe('PATCH /books', () => {
     test('happy path', async () => {
         // Prepare
-        let test_data = [].concat(global.seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        let test_data = [].concat(global.seed_data.data)
+        test_data = test_data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+
         let body = {
             name: 'Snow White',
             author: 'John Doe'
@@ -49,7 +51,8 @@ describe('PATCH /books', () => {
 
     test('duplicate key - no problem', async () => {
         // Prepare
-        let test_data = [].concat(global.seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        let test_data = [].concat(global.seed_data.data)
+        test_data = test_data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         test_data += '&isbn=1234567890121' // duplicate key
 
         let body = {
@@ -96,7 +99,8 @@ describe('PATCH /books', () => {
 
     test('non-existing key - no problem', async () => {
         // Prepare
-        let test_data = [].concat(global.seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        let test_data = [].concat(global.seed_data.data)
+        test_data = test_data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         test_data += '&isbn=1112223334445' // duplicate key
 
         let body = {
@@ -172,7 +176,8 @@ describe('PATCH /books', () => {
 
     test('no request body - expect error', async () => {
         // Prepare
-        let test_data = [].concat(global.seed_data.data).slice(0, 2)
+        let test_data = [].concat(global.seed_data.data)
+        test_data = test_data.slice(0, 2)
 
         // Request
         let res1 = await global.request
@@ -197,7 +202,9 @@ describe('PATCH /books', () => {
 
     test('db error - no record updated', async () => {
         // Prepare
-        let test_data = [].concat(global.seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        let test_data = [].concat(global.seed_data.data)
+        test_data = test_data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        
         let body = {
             name: 'Snow White',
             author: 'John Doe'
