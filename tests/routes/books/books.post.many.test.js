@@ -3,7 +3,7 @@ process.env.TEST_SUITE = __filename
 describe('POST /books', () => {
     test('happy path', async () => {
         // Prepare
-        let test_data = [].concat(global.seed_data.data)
+        let test_data = require('../../fixtures/books').data
         test_data = test_data.map(elem => {
             elem.isbn += 100
             return elem
