@@ -2,7 +2,7 @@ process.env.TEST_SUITE = __filename
 
 describe('PATCH /books/:isbn', () => {
     test('success - return updated record', async () => {
-        console.log(global.seed_data.data)
+        console.log(global.seed_data.books)
 
         // Prepare
         let isbn = 1234567890121
@@ -20,7 +20,6 @@ describe('PATCH /books/:isbn', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             _id: expect.any(String),
             isbn: test_data.isbn,
@@ -46,7 +45,6 @@ describe('PATCH /books/:isbn', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),
         })
@@ -68,7 +66,6 @@ describe('PATCH /books/:isbn', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),
         })
@@ -90,7 +87,6 @@ describe('PATCH /books/:isbn', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),
         })
@@ -113,7 +109,6 @@ describe('PATCH /books/:isbn', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),
         })
@@ -136,7 +131,6 @@ describe('PATCH /books/:isbn', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),
         })

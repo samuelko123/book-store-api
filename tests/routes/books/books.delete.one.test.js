@@ -3,7 +3,7 @@ process.env.TEST_SUITE = __filename
 describe('DELETE /books/:isbn', () => {
     test('success - return deleted record', async () => {
         // Prepare
-        let test_data = global.seed_data.data[0]
+        let test_data = global.seed_data.books[0]
 
         // Request
         let res = await global.request
@@ -12,7 +12,6 @@ describe('DELETE /books/:isbn', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             _id: expect.any(String),
             isbn: test_data.isbn,
@@ -33,7 +32,6 @@ describe('DELETE /books/:isbn', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),
         })
@@ -50,7 +48,6 @@ describe('DELETE /books/:isbn', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),
         })

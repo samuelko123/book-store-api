@@ -18,7 +18,6 @@ describe('POST /books', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.CREATED)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             _id: expect.any(String),
             isbn: test_data.isbn,
@@ -51,7 +50,6 @@ describe('POST /books', () => {
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.CREATED)
         expect(res2.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body).toEqual({
             error: expect.any(String)
         })
@@ -74,7 +72,6 @@ describe('POST /books', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
         })
@@ -97,7 +94,6 @@ describe('POST /books', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
         })
@@ -120,7 +116,6 @@ describe('POST /books', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String)
         })
@@ -144,7 +139,6 @@ describe('POST /books', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
             error: expect.any(String),
         })

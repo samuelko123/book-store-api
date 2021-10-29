@@ -14,7 +14,10 @@ class CustomEnvironment extends NodeEnvironment {
     this.global.constants = require('../../utils/constants')
 
     // seed data
-    this.global.seed_data = require('./books')
+    this.global.seed_data = require('./seed_data')
+
+    // object cloner
+    this.global.clone = require('rfdc')()
   }
 
   async teardown() {

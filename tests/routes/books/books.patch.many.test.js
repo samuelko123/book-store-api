@@ -4,7 +4,7 @@ process.env.TEST_SUITE = __filename
 describe('PATCH /books', () => {
     test('happy path', async () => {
         // Prepare
-        let test_data = [].concat(global.seed_data.data)
+        let test_data = global.clone(global.seed_data.books)
         test_data = test_data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
 
         let body = {
@@ -24,7 +24,6 @@ describe('PATCH /books', () => {
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             acknowledged: true,
             modifiedCount: 2,
@@ -34,7 +33,6 @@ describe('PATCH /books', () => {
         })
 
         expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body.length).toEqual(2)
         expect(res2.body).toEqual(
             expect.arrayContaining([
@@ -51,7 +49,7 @@ describe('PATCH /books', () => {
 
     test('duplicate key - no problem', async () => {
         // Prepare
-        let test_data = [].concat(global.seed_data.data)
+        let test_data = global.clone(global.seed_data.books)
         test_data = test_data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         test_data += '&isbn=1234567890121' // duplicate key
 
@@ -72,7 +70,6 @@ describe('PATCH /books', () => {
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             acknowledged: true,
             modifiedCount: 2,
@@ -82,7 +79,6 @@ describe('PATCH /books', () => {
         })
 
         expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body.length).toEqual(2)
         expect(res2.body).toEqual(
             expect.arrayContaining([
@@ -99,7 +95,7 @@ describe('PATCH /books', () => {
 
     test('non-existing key - no problem', async () => {
         // Prepare
-        let test_data = [].concat(global.seed_data.data)
+        let test_data = global.clone(global.seed_data.books)
         test_data = test_data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         test_data += '&isbn=1112223334445' // duplicate key
 
@@ -120,7 +116,6 @@ describe('PATCH /books', () => {
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             acknowledged: true,
             modifiedCount: 2,
@@ -130,7 +125,6 @@ describe('PATCH /books', () => {
         })
 
         expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body.length).toEqual(2)
         expect(res2.body).toEqual(
             expect.arrayContaining([
@@ -164,19 +158,17 @@ describe('PATCH /books', () => {
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             error: expect.any(String)
         })
 
         expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body.length).toEqual(0)
     })
 
     test('no request body - expect error', async () => {
         // Prepare
-        let test_data = [].concat(global.seed_data.data)
+        let test_data = global.clone(global.seed_data.books)
         test_data = test_data.slice(0, 2)
 
         // Request
@@ -190,19 +182,17 @@ describe('PATCH /books', () => {
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE)
-        expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             error: expect.any(String)
         })
 
         expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body.length).toEqual(0)
     })
 
     test('db error - no record updated', async () => {
         // Prepare
-        let test_data = [].concat(global.seed_data.data)
+        let test_data = global.clone(global.seed_data.books)
         test_data = test_data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         
         let body = {
@@ -230,13 +220,11 @@ describe('PATCH /books', () => {
         expect(spy.updateMany).toHaveBeenCalledTimes(1)
 
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.SERVER_ERROR)
-        expect(res1.headers['content-type']).toMatch(/json/)
         expect(res1.body).toEqual({
             error: expect.any(String)
         })
 
         expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res2.headers['content-type']).toMatch(/json/)
         expect(res2.body.length).toEqual(0) // no records updated
     })
 })

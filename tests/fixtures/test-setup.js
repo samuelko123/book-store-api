@@ -20,7 +20,7 @@ beforeEach(async () => {
 
     await global.request.post('/api/books')
         .set('Accept', 'application/json')
-        .send(global.seed_data.data)
+        .send(global.seed_data.books)
 })
 
 afterAll(async () => {

@@ -9,6 +9,5 @@ describe('doc json', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res.headers['content-type']).toMatch(/json/)
     })
 })
