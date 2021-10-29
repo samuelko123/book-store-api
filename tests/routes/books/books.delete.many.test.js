@@ -4,7 +4,7 @@ process.env.TEST_SUITE = __filename
 describe('DELETE /books', () => {
     test('happy path - return deleted count', async () => {
         // Prepare
-        let test_data = global.seed_data.data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        let test_data = [].concat(global.seed_data.data).slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
 
         // Request
         let res1 = await global.request
@@ -27,7 +27,7 @@ describe('DELETE /books', () => {
 
     test('duplicate key - still success', async () => {
         // Prepare
-        let test_data = global.seed_data.data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        let test_data = [].concat(global.seed_data).data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         test_data += '&isbn=' + global.seed_data.data[0].isbn
 
         // Request
@@ -51,7 +51,7 @@ describe('DELETE /books', () => {
 
     test('invalid key - give error', async () => {
         // Prepare
-        let test_data = global.seed_data.data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        let test_data = [].concat(global.seed_data).data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         test_data += '&isbn=invalid isbn'
 
         // Request
@@ -77,7 +77,7 @@ describe('DELETE /books', () => {
 
     test('db error - no record deleted', async () => {
         // Prepare
-        let test_data = global.seed_data.data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
+        let test_data = [].concat(global.seed_data).data.slice(0, 2).map(x => `isbn=${x.isbn}`).join('&')
         let spy = {
             deleteMany: jest.spyOn(model, 'deleteMany').mockImplementation(() => {
                 throw Error('Unexpected Error')
