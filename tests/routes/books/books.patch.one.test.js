@@ -17,6 +17,7 @@ describe('PATCH /books/:isbn', () => {
             .send(test_data)
 
         // Assert
+        console.log(res.body)
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.headers['content-type']).toMatch(/json/)
         expect(res.body).toEqual({
