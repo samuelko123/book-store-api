@@ -21,7 +21,7 @@ module.exports = winston.createLogger({
     transports: [
         new winston.transports.Console({
             format: winston.format.colorize({ all: true }),
-            // silent: (process.env.NODE_ENV == 'test'),
+            silent: (process.env.NODE_ENV == 'test'),
         }),
         new winston.transports.File({
             format: filterOnly('http'),
