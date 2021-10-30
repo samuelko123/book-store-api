@@ -5,7 +5,6 @@ describe('app redirect', () => {
         // Request
         let res = await global.request
             .get('/')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.FOUND)

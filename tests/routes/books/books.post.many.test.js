@@ -12,12 +12,10 @@ describe('POST /books', () => {
         // Request
         let res1 = await global.request
             .post('/api/books')
-            .set('Accept', 'application/json')
             .send(test_data)
 
         let res2 = await global.request
             .get('/api/books')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.CREATED)
@@ -30,29 +28,16 @@ describe('POST /books', () => {
     test('duplicate key', async () => {
         // Prepare
         let test_data = global.clone(global.seed_data.books)
-        test_data.push({
-            isbn: 1234567890121, // duplicate key
-            name: 'Book ABC',
-            author: 'Author ABC',
-            price: 9.99,
-        })
-
-        test_data.push({
-            isbn: 1234567890122, // duplicate key
-            name: 'Book ABC',
-            author: 'Author ABC',
-            price: 9.99,
-        })
+        test_data.push(global.seed_data.books[0])
+        test_data.push(global.seed_data.books[2])
 
         // Request
         let res1 = await global.request
             .post('/api/books')
-            .set('Accept', 'application/json')
             .send(test_data)
 
         let res2 = await global.request
             .get('/api/books')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -77,12 +62,10 @@ describe('POST /books', () => {
         // Request
         let res1 = await global.request
             .post('/api/books')
-            .set('Accept', 'application/json')
             .send(test_data)
 
         let res2 = await global.request
             .get('/api/books')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -107,12 +90,10 @@ describe('POST /books', () => {
         // Request
         let res1 = await global.request
             .post('/api/books')
-            .set('Accept', 'application/json')
             .send(test_data)
 
         let res2 = await global.request
             .get('/api/books')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)

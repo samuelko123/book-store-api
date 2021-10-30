@@ -6,7 +6,8 @@ process.env.TEST_SUITE = __filename
 describe('routing error handling', () => {
     test('Not Found', async () => {
         // Request
-        let res = await global.request.get('/no-such-path')
+        let res = await global.request
+            .get('/no-such-path')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)
@@ -25,7 +26,8 @@ describe('routing error handling', () => {
         }
 
         // Request
-        let res = await global.request.get('/error-path')
+        let res = await global.request
+            .get('/error-path')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.SERVER_ERROR)
@@ -46,7 +48,8 @@ describe('routing error handling', () => {
         }
 
         // Request
-        let res = await global.request.get('/no-such-path')
+        let res = await global.request
+            .get('/no-such-path')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)

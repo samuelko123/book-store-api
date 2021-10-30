@@ -1,19 +1,15 @@
 process.env.TEST_SUITE = __filename
 
 describe('POST /books', () => {
-    test('successful - return created record', async () => {
+    test('happy path - return created record', async () => {
         // Prepare
-        let test_data = {
-            isbn: 1112223334445,
-            name: 'Book ABC',
-            author: 'Author ABC',
-            price: 9.99,
-        }
+        let test_data = global.clone(global.seed_data.books)
+        test_data = test_data[0]
+        test_data.isbn += 200
 
         // Request
         let res = await global.request
             .post('/api/books')
-            .set('Accept', 'application/json')
             .send(test_data)
 
         // Assert
@@ -29,45 +25,12 @@ describe('POST /books', () => {
 
     test('duplicate key', async () => {
         // Prepare
-        let test_data = {
-            isbn: 1112223334445,
-            name: 'Book ABC',
-            author: 'Author ABC',
-            price: 9.99,
-        }
-
-        // Request
-        let res1 = await global.request
-            .post('/api/books')
-            .set('Accept', 'application/json')
-            .send(test_data)
-        
-        let res2 = await global.request
-            .post('/api/books')
-            .set('Accept', 'application/json')
-            .send(test_data)
-
-        // Assert
-        expect(res1.status).toEqual(global.constants.HTTP_STATUS.CREATED)
-        expect(res2.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res2.body).toEqual({
-            error: expect.any(String)
-        })
-    })
-
-    test('invalid field', async () => {
-        // Prepare
-        let test_data = {
-            i: 1112223334445, // expect "isbn"
-            name: 'Book ABC',
-            author: 'Author ABC',
-            price: 9.99,
-        }
+        let test_data = global.clone(global.seed_data.books)
+        test_data = test_data[0]
 
         // Request
         let res = await global.request
             .post('/api/books')
-            .set('Accept', 'application/json')
             .send(test_data)
 
         // Assert
@@ -79,17 +42,13 @@ describe('POST /books', () => {
 
     test('invalid value', async () => {
         // Prepare
-        let test_data = {
-            isbn: 1112223334445,
-            name: 'Book ABC',
-            author: 'Author ABC',
-            price: 0, // invalid price
-        }
+        let test_data = global.clone(global.seed_data.books)
+        test_data = test_data[0]
+        test_data.price = -1
 
         // Request
         let res = await global.request
             .post('/api/books')
-            .set('Accept', 'application/json')
             .send(test_data)
 
         // Assert
@@ -101,17 +60,13 @@ describe('POST /books', () => {
 
     test('missing required field', async () => {
         // Prepare
-        let test_data = {
-            // missing isbn
-            name: 'Book ABC',
-            author: 'Author ABC',
-            price: 9.99,
-        }
+        let test_data = global.clone(global.seed_data.books)
+        test_data = test_data[0]
+        delete test_data.isbn
 
         // Request
         let res = await global.request
             .post('/api/books')
-            .set('Accept', 'application/json')
             .send(test_data)
 
         // Assert
@@ -123,18 +78,13 @@ describe('POST /books', () => {
 
     test('extra field - expected to throw', async () => {
         // Prepare
-        let test_data = {
-            no_such_field: 'abc',
-            isbn: 9780747532743,
-            name: "Harry Potter And The Philosopher's Stone",
-            author: 'J. K. Rowling',
-            price: 9.99,
-        }
+        let test_data = global.clone(global.seed_data.books)
+        test_data = test_data[0]
+        test_data.no_such_field = 'abc'
 
         // Request
         let res = await global.request
             .post('/api/books')
-            .set('Accept', 'application/json')
             .send(test_data)
 
         // Assert

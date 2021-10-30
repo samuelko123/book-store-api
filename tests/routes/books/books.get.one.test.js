@@ -8,7 +8,6 @@ describe('GET /books/:isbn', () => {
         // Request
         let res = await global.request
             .get(`/api/books/${test_data.isbn}`)
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -25,7 +24,6 @@ describe('GET /books/:isbn', () => {
         // Request
         let res = await global.request
             .get('/api/books/invalid-isbn')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -38,7 +36,6 @@ describe('GET /books/:isbn', () => {
         // Request
         let res = await global.request
             .get('/api/books/2224567890123')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)

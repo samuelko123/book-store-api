@@ -10,11 +10,9 @@ describe('DELETE /books', () => {
         // Request
         let res1 = await global.request
             .delete(`/api/books?${test_data}`)
-            .set('Accept', 'application/json')
 
         let res2 = await global.request
             .get('/api/books')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -33,11 +31,9 @@ describe('DELETE /books', () => {
         // Request
         let res1 = await global.request
             .delete(`/api/books?${test_data}`)
-            .set('Accept', 'application/json')
 
         let res2 = await global.request
             .get('/api/books')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -56,11 +52,9 @@ describe('DELETE /books', () => {
         // Request
         let res1 = await global.request
             .delete(`/api/books?${test_data}`)
-            .set('Accept', 'application/json')
 
         let res2 = await global.request
             .get('/api/books')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -86,11 +80,9 @@ describe('DELETE /books', () => {
         // Request
         let res1 = await global.request
             .delete(`/api/books?${test_data}`)
-            .set('Accept', 'application/json')
 
         let res2 = await global.request
             .get('/api/books')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(spy.deleteMany).toHaveBeenCalledTimes(1)

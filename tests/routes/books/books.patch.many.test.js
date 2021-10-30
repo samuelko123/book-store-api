@@ -15,12 +15,10 @@ describe('PATCH /books', () => {
         // Request
         let res1 = await global.request
             .patch(`/api/books?${test_data}`)
-            .set('Accept', 'application/json')
             .send(body)
 
         let res2 = await global.request
             .get('/api/books?author=John Doe')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -61,12 +59,10 @@ describe('PATCH /books', () => {
         // Request
         let res1 = await global.request
             .patch(`/api/books?${test_data}`)
-            .set('Accept', 'application/json')
             .send(body)
 
         let res2 = await global.request
             .get('/api/books?author=John Doe')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -107,12 +103,10 @@ describe('PATCH /books', () => {
         // Request
         let res1 = await global.request
             .patch(`/api/books?${test_data}`)
-            .set('Accept', 'application/json')
             .send(body)
 
         let res2 = await global.request
             .get('/api/books?author=John Doe')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -149,12 +143,10 @@ describe('PATCH /books', () => {
         // Request
         let res1 = await global.request
             .patch('/api/books')
-            .set('Accept', 'application/json')
             .send(body)
 
         let res2 = await global.request
             .get('/api/books?author=John Doe')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -174,11 +166,9 @@ describe('PATCH /books', () => {
         // Request
         let res1 = await global.request
             .patch(`/api/books?${test_data}`)
-            .set('Accept', 'application/json')
 
         let res2 = await global.request
             .get('/api/books?author=John Doe')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE)
@@ -209,12 +199,10 @@ describe('PATCH /books', () => {
         // Request
         let res1 = await global.request
             .patch(`/api/books?${test_data}`)
-            .set('Accept', 'application/json')
             .send(body)
 
         let res2 = await global.request
             .get('/api/books?author=John Doe')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(spy.updateMany).toHaveBeenCalledTimes(1)

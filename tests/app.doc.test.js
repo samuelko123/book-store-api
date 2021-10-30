@@ -5,7 +5,6 @@ describe('doc json', () => {
         // Request
         let res = await global.request
             .get(global.constants.OPEN_API_JSON.URL)
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)

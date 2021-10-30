@@ -13,7 +13,6 @@ describe('PATCH /books/:isbn', () => {
         // Request
         let res = await global.request
             .patch(`/api/books/${isbn}`)
-            .set('Accept', 'application/json')
             .send(test_data)
 
         // Assert
@@ -38,7 +37,6 @@ describe('PATCH /books/:isbn', () => {
         // Request
         let res = await global.request
             .patch(`/api/books/${isbn}`)
-            .set('Accept', 'application/json')
             .send(test_data)
 
         // Assert
@@ -59,7 +57,6 @@ describe('PATCH /books/:isbn', () => {
         // Request
         let res = await global.request
             .patch(`/api/books/${isbn}`)
-            .set('Accept', 'application/json')
             .send(test_data)
 
         // Assert
@@ -80,7 +77,6 @@ describe('PATCH /books/:isbn', () => {
         // Request
         let res = await global.request
             .patch(`/api/books/${isbn}`)
-            .set('Accept', 'application/json')
             .send(test_data)
 
         // Assert
@@ -102,7 +98,6 @@ describe('PATCH /books/:isbn', () => {
         // Request
         let res = await global.request
             .patch(`/api/books/${isbn}`)
-            .set('Accept', 'application/json')
             .send(test_data)
 
         // Assert
@@ -124,7 +119,6 @@ describe('PATCH /books/:isbn', () => {
         // Request
         let res = await global.request
             .patch(`/api/books/${isbn}`)
-            .set('Accept', 'application/json')
             .send(test_data)
 
         // Assert

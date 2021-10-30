@@ -8,7 +8,6 @@ describe('DELETE /books/:isbn', () => {
         // Request
         let res = await global.request
             .delete(`/api/books/${test_data.isbn}`)
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -28,7 +27,6 @@ describe('DELETE /books/:isbn', () => {
         // Request
         let res = await global.request
             .delete(`/api/books/${isbn}`)
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -44,7 +42,6 @@ describe('DELETE /books/:isbn', () => {
         // Request
         let res = await global.request
             .delete(`/api/books/${isbn}`)
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)

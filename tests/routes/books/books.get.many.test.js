@@ -5,7 +5,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get(`/api/books`)
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -27,7 +26,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?name=book&author=thor a')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -38,7 +36,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?price$gte=2&price$lte=4')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -49,7 +46,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?select=name')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -68,7 +64,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?sort=name&select=name')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -79,7 +74,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?sort=-name&select=name')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -90,7 +84,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?sort=name&skip=3')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -101,7 +94,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?sort=name&skip=3&limit=1')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -112,7 +104,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?sort=name&skip=-3')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -125,7 +116,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?sort=name&skip=3.1')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -138,7 +128,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?sort=name&skip=a1')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -151,7 +140,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?sort=name&limit=-1')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -164,7 +152,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?sort=name&limit=1.01')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -177,7 +164,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?sort=name&limit=abc123')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -190,7 +176,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books?price=1') // should be price$eq=1
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
@@ -203,7 +188,6 @@ describe('GET /books', () => {
         // Request
         let res = await global.request
             .get('/api/books? PRICE$gte=1 & PRICE$lte=4 & SORT=-NAME & SKIP=1 & LIMIT=2 & SELECT=NAME AUTHOR')
-            .set('Accept', 'application/json')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
