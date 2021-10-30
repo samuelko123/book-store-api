@@ -14,9 +14,7 @@ async function start_server() {
 
         // Connect to DB
         if (process.env.NODE_ENV !== 'production') {
-            const replica = await db.create_memory_replica()
-            const uri = replica.getUri()
-            await db.connect(uri)
+            await db.connect(process.env.MONGO_URI_DEV)
         } else {
             await db.connect(process.env.MONGO_URI)
         }

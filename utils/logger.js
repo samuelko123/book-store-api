@@ -24,6 +24,11 @@ module.exports = winston.createLogger({
             silent: (process.env.NODE_ENV == 'test'),
         }),
         new winston.transports.File({
+            filename: 'logs/all.log',
+            maxsize: 1 * 1000 * 1000, // 1 MB
+            maxFiles: 3
+        }),
+        new winston.transports.File({
             format: filterOnly('http'),
             filename: 'logs/http.log',
             level: 'http',
