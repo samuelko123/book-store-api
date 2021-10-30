@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-mongoose.Promise = global.Promise
 mongoose.ObjectId.get(v => (!v ? '' : v.toString()))
 
 const logger = require('./logger')
