@@ -1,4 +1,4 @@
-const db = require(`${process.cwd()}/db`)
+const db = require('../utils/db')
 const logger = require(`${process.cwd()}/utils/logger`)
 process.env.TEST_SUITE = __filename
 

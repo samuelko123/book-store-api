@@ -1,6 +1,8 @@
 const dotenv = require('dotenv')
 const logger = require('./utils/logger')
-const db = require('./db')
+const db = require('./utils/db')
+const doc = require('./utils/doc')
+const app = require('./app')
 
 async function start_server() {
     try {
@@ -9,20 +11,20 @@ async function start_server() {
         // read .env file
         dotenv.config()
 
-        // Regenerate documentation
-        await require('./doc')()
+        // generate documentation
+        doc.generate()
 
-        // Connect to DB
+        // connect to DB
         if (process.env.NODE_ENV !== 'production') {
             await db.connect(process.env.MONGO_URI_DEV)
         } else {
             await db.connect(process.env.MONGO_URI)
         }
 
-        // Start the Express server
-        const app = await require('./app').create()
+        // start the express server
+        const server = await app.create()
         const port = process.env.PORT || 3000
-        app.listen(port, () => {
+        server.listen(port, () => {
             logger.info(`Listening on port ${port}`)
         })
     } catch (err) {

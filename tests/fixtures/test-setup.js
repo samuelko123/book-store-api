@@ -1,7 +1,9 @@
+const supertest = require('supertest')
+const path = require('path')
 const mongoose = require('mongoose')
 mongoose.Promise = global.Promise
 
-const db = require(`${process.cwd()}/db`)
+const db = require('../../utils/db')
 
 beforeAll(async () => {
     // constants
@@ -9,15 +11,16 @@ beforeAll(async () => {
     global.seed_data = require('./seed_data')
     global.clone = require('rfdc')()
 
-    // express app
-    const supertest = require('supertest')
-    const app = await require(`${process.cwd()}/app`).create()
-    global.request = supertest(app)
+    // express server
+    const server = await require(`${process.cwd()}/app`).create()
+    global.request = supertest(server)
 
-    // mongo db - different database for each worker
-    await db.connect(process.env.mongo_uri_test, {
-        dbName: `db-${process.env.JEST_WORKER_ID}`
-    })
+    // mongo db - different database for each test suite
+    if (mongoose.connection.readyState === 0) {
+        await db.connect(process.env.mongo_uri_test, {
+            dbName: `db-${path.basename(process.env.TEST_SUITE).split('.').join('-')}`
+        })
+    }
 })
 
 beforeEach(async () => {

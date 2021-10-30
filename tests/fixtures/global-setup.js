@@ -1,8 +1,9 @@
 const { MongoMemoryReplSet } = require('mongodb-memory-server')
+const doc = require('../../utils/doc')
 
 module.exports = async () => {
     // generate documentation
-    await require('../../doc')()
+    doc.generate()
 
     // start a mongod instance
     global.mongod = await MongoMemoryReplSet.create({
