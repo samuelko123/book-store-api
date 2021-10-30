@@ -3,7 +3,7 @@ const doc = require('../../utils/doc')
 
 module.exports = async () => {
     // generate documentation
-    doc.generate()
+    await doc.generate()
 
     // start a mongod instance
     global.mongod = await MongoMemoryReplSet.create({
