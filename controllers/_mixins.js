@@ -51,7 +51,8 @@ exports.findMany = async function (req, res, next) {
         let mongo_select = req.query.select || ''
         let mongo_sort = req.query.sort || ''
         let mongo_skip = req.query.skip || 0
-        let mongo_limit = req.query.limit || 50
+        let mongo_limit = Math.min(req.query.limit || 25, 100)
+        console.log(mongo_limit)
 
         let mongo_query = {}
         for (let field in req.query) {

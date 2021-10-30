@@ -8,6 +8,7 @@ parameters:
     name: freeform
     description: >-
       <li>Mongoose queries (sort/skip/limit/select) are passed to Mongoose query</li>
+      <li>For limit, default = 25, max = 100
       <li>Use field names (e.g. isbn, author etc.) for keyword search (case-insensitive)</li>
       <li>Use comparison operator (e.g. $lt, $eq, $gte etc.) for numeric fields </li>
       <br />
