@@ -1,5 +1,5 @@
-const db = require('../utils/db')
-const logger = require(`${process.cwd()}/utils/logger`)
+const db = require('../../utils/db')
+const logger = require('../../utils/logger')
 process.env.TEST_SUITE = __filename
 
 describe('connect to database', () => {

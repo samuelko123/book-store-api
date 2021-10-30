@@ -11,12 +11,16 @@ beforeAll(async () => {
     global.clone = require('rfdc')()
 
     // mongo db - different database for each test suite
+    let db_name = 'db-' + path.basename(process.env.TEST_SUITE).split('.').join('-')
     await db.connect(process.env.mongo_uri_test, {
-        dbName: `db-${path.basename(process.env.TEST_SUITE).split('.').join('-')}`
+        dbName: db_name
     })
 
+    // session store
+    const session_store = db.create_session_store()
+
     // express server
-    const server = await require(`${process.cwd()}/app`).create()
+    const server = await require('../../app').create(session_store)
     global.request = supertest(server)
 })
 

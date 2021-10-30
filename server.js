@@ -14,15 +14,18 @@ async function start_server() {
         // generate documentation
         doc.generate()
 
-        // connect to DB
+        // connect to db
         if (process.env.NODE_ENV !== 'production') {
             await db.connect(process.env.MONGO_URI_DEV)
         } else {
             await db.connect(process.env.MONGO_URI)
         }
 
+        // create session store
+        const session_store = db.create_session_store()
+
         // start the express server
-        const server = await app.create()
+        const server = await app.create(session_store)
         const port = process.env.PORT || 3000
         server.listen(port, () => {
             logger.info(`Listening on port ${port}`)

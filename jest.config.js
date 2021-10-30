@@ -1,6 +1,6 @@
 module.exports = {
     testMatch: ['<rootDir>/tests/**/*.test.js'],
-    // testMatch: ['<rootDir>/tests/**/books.*one.test.js'],
+    // testMatch: ['<rootDir>/tests/**/logger.test.js'],
     testEnvironment: 'node',
     globalSetup: '<rootDir>/tests/fixtures/global-setup.js',
     setupFilesAfterEnv: ['<rootDir>/tests/fixtures/test-setup.js'],
