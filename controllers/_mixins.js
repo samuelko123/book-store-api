@@ -1,5 +1,5 @@
-const { CustomError } = require(`${process.cwd()}/utils/error`)
-const constants = require(`${process.cwd()}/utils/constants`)
+const { CustomError } = require('../utils/error')
+const constants = require('../utils/constants')
 
 exports.create = async function (req, res, next) {
     if (Array.isArray(req.body)) {

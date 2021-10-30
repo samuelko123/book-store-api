@@ -1,6 +1,6 @@
-const empty = require(`${process.cwd()}/utils/empty`)
-const error_handler = require(`${process.cwd()}/utils/error_handler`)
-const logger = require(`${process.cwd()}/utils/logger`)
+const empty = require('../utils/empty')
+const error_handler = require('../utils/error_handler')
+const logger = require('../utils/logger')
 process.env.TEST_SUITE = __filename
 
 describe('routing error handling', () => {

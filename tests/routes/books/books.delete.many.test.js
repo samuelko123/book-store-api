@@ -1,4 +1,4 @@
-const model = require(`${process.cwd()}/models/books`)
+const model = require('../../../models/books')
 process.env.TEST_SUITE = __filename
 
 describe('DELETE /books', () => {

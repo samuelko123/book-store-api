@@ -15,7 +15,7 @@ describe('winston logger', () => {
     test('debug for development', async () => {
         // Prepare
         process.env.NODE_ENV = 'development'
-        const logger = require(`${process.cwd()}/utils/logger`)
+        const logger = require('../../utils/logger')
 
         // Assert
         expect(logger.level).toEqual('debug')
@@ -24,7 +24,7 @@ describe('winston logger', () => {
     test('info for production', async () => {
         // Prepare
         process.env.NODE_ENV = 'production'
-        const logger = require(`${process.cwd()}/utils/logger`)
+        const logger = require('../../utils/logger')
 
         // Assert
         expect(logger.level).toEqual('http')

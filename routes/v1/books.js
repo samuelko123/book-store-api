@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const controller = require(`${process.cwd()}/controllers/books`)
+const controller = require('../../controllers/books')
 
 router.post('/', controller.create)
 router.get('/:isbn', controller.findOne)
