@@ -4,4 +4,4 @@ content:
     schema:
       $ref: '../_index.yaml#/components/schemas/Error'
     example:
-      error: 'request.body should have required property "isbn"'
+      error: 'request.body should have required property "field"'

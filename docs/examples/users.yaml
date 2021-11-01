@@ -1,0 +1,7 @@
+value:
+  - username: User B
+    email: user_b@gmail.com
+    password: Passw0rd!
+  - username: User C
+    email: user_c@gmail.com
+    password: Passw0rd!

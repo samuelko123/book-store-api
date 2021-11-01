@@ -4,4 +4,4 @@ content:
     schema:
       $ref: '../_index.yaml#/components/schemas/Error'
     example:
-      error: 'No document found for query "{ isbn: 1112223334445 }" on model "books"'
+      error: 'No document found for query "{ field: value }" on model "demo"'

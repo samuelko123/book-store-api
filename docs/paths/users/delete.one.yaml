@@ -1,0 +1,22 @@
+summary: Delete a User
+tags:
+  - users
+
+parameters:
+  - $ref: '../../_index.yaml#/components/parameters/Username'
+
+responses:
+  '200':
+    description: Returns the deleted UserDocument
+    content:
+      application/json:
+        schema:
+          $ref: '../../_index.yaml#/components/schemas/UserDocument'
+        examples:
+          UserDocument:
+            $ref: '../../_index.yaml#/components/examples/UserDocument'
+
+  '400':
+    $ref: '../../_index.yaml#/components/responses/Error400'
+  '404':
+    $ref: '../../_index.yaml#/components/responses/Error404'

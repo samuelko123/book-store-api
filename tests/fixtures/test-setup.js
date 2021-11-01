@@ -8,6 +8,7 @@ beforeAll(async () => {
     // constants
     global.constants = require('../../utils/constants')
     global.seed_data = require('./seed_data')
+    global.test_data = require('./test_data')
     global.clone = require('rfdc')()
 
     // mongo db - different database for each test suite
@@ -33,9 +34,11 @@ beforeEach(async () => {
             await collection.deleteMany()
         }
 
-        // populate seed data
-        const books = require('../../models/books')
-        await books.create(global.seed_data.books)
+        // seed db
+        for (let model_name in global.seed_data){
+            let model = require(`../../models/${model_name}`)
+            await model.create(global.seed_data[model_name])
+        }
     }
 })
 

@@ -2,33 +2,33 @@ const { CustomError } = require('../utils/error')
 const constants = require('../utils/constants')
 
 exports.create = async function (req, res, next) {
-    if (Array.isArray(req.body)) {
-        const session = await this.model.startSession()
-        session.startTransaction()
-        try {
-            // query mongo database
-            var data = await this.model.insertMany(req.body, { session: session })
-            await session.commitTransaction()
-            session.endSession()
+    const session = await this.model.startSession()
+    session.startTransaction()
 
-            // return result
-            res.status(constants.HTTP_STATUS.CREATED).json(data)
-        } catch (err) {
-            session.endSession()
-            next(err)
+    try {
+        // query mongo database
+        let data
+        if (Array.isArray(data)){
+            data = await this.model.insertMany(req.body, { session: session })
+        } else {
+            data = await this.model.create(req.body)
         }
-    }
-    else {
-        try {
-            // query mongo database
-            var data = await this.model.create(req.body)
+        
+        await session.commitTransaction()
+        session.endSession()
 
-            // return result
-            res.status(constants.HTTP_STATUS.CREATED).json(data)
-        } catch (err) {
-            next(err)
+        // sanitise output - e.g. remove password
+        if (!!this.sanitiseOutput) {
+            data = this.sanitiseOutput(data)
         }
+
+        // return result
+        res.status(constants.HTTP_STATUS.CREATED).json(data)
+    } catch (err) {
+        session.endSession()
+        next(err)
     }
+
 }
 
 exports.findOne = async function (req, res, next) {
@@ -37,7 +37,7 @@ exports.findOne = async function (req, res, next) {
         let data = await this.model
             .findOne({ [this.id_field]: req.params[this.id_field] })
             .orFail()
-            
+
         // return result
         res.json(data)
     } catch (err) {
@@ -52,7 +52,6 @@ exports.findMany = async function (req, res, next) {
         let mongo_sort = req.query.sort || ''
         let mongo_skip = req.query.skip || 0
         let mongo_limit = Math.min(req.query.limit || 25, 100)
-        console.log(mongo_limit)
 
         let mongo_query = {}
         for (let field in req.query) {
@@ -79,7 +78,7 @@ exports.findMany = async function (req, res, next) {
         // query mongo database
         let data = await this.model
             .find(mongo_query)
-                        .sort(mongo_sort)
+            .sort(mongo_sort)
             .skip(mongo_skip)
             .limit(mongo_limit)
             .select(mongo_select)
@@ -93,11 +92,20 @@ exports.findMany = async function (req, res, next) {
 
 exports.updateOne = async function (req, res, next) {
     try {
+        // validate
+        if('created_at' in req.body){
+            throw new CustomError(400, "immutable field - 'created_at'")
+        }
+
+        if('updated_at' in req.body){
+            throw new CustomError(400, "immutable field - 'created_at'")
+        }
+
         // query mongo database
         let data = await this.model
             .findOneAndUpdate({ [this.id_field]: req.params[this.id_field] }, req.body, { new: true })
             .orFail()
-            
+
         // return reuslt
         res.json(data)
     } catch (err) {
@@ -133,7 +141,12 @@ exports.deleteOne = async function (req, res, next) {
         let data = await this.model
             .findOneAndDelete({ [this.id_field]: req.params[this.id_field] })
             .orFail()
-            
+
+        // sanitise output - e.g. remove password
+        if (!!this.sanitiseOutput) {
+            data = this.sanitiseOutput(data)
+        }
+
         // return result
         res.json(data)
     } catch (err) {

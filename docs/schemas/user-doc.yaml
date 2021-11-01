@@ -1,0 +1,18 @@
+type: object
+properties:
+  username:
+    type: string
+  email:
+    type: string
+  role:
+    type: string
+    default: standard
+  verified:
+    type: boolean
+    readOnly: true
+  login_attempts:
+    type: integer
+    readOnly: true
+  locked:
+    type: boolean
+    readOnly: true

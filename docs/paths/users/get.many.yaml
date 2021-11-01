@@ -1,0 +1,29 @@
+summary: Find Users
+tags:
+  - users
+
+x-allow-unknown-query-parameters: true
+parameters:
+  - in: query
+    name: freeform
+    description: >-
+      <li>Mongoose queries (sort/skip/limit/select) are passed to Mongoose query</li>
+      <li>For limit, default = 25, max = 100
+      <li>Use field names (e.g. username etc.) for keyword search (case-insensitive)</li>
+      <li>Use comparison operator (e.g. $lt, $eq, $gte etc.) for numeric fields </li>
+      <br />
+    schema:
+      type: object
+      example:
+        login_attempts$eq: 0
+        username: user
+        sort: -username
+        skip: 1
+        limit: 2
+        select: username
+
+responses:
+  '200':
+    $ref: '../../_index.yaml#/components/responses/GetMany200'
+  '400':
+    $ref: '../../_index.yaml#/components/responses/Error400'

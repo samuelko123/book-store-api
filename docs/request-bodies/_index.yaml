@@ -1,2 +1,4 @@
 BookUpdate:
   $ref: './book-update.yaml'
+UserUpdate:
+  $ref: './user-update.yaml'

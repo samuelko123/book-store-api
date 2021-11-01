@@ -1,0 +1,36 @@
+summary: Creates User(s)
+tags:
+  - users
+  
+requestBody:
+  required: true
+  description: User object / Array of User objects
+  content:
+    application/json:
+      schema:
+        oneOf:
+        - $ref: '../../_index.yaml#/components/schemas/User'
+        - $ref: '../../_index.yaml#/components/schemas/Users'
+      examples:
+        User:
+          $ref: '../../_index.yaml#/components/examples/User'
+        Users:
+          $ref: '../../_index.yaml#/components/examples/Users'
+        
+responses:
+  '201':
+    description: Returns User(s)
+    content:
+      application/json:
+        schema:
+          oneOf:
+          - $ref: '../../_index.yaml#/components/schemas/UserDocument'
+          - $ref: '../../_index.yaml#/components/schemas/UserDocuments'
+        examples:
+          UserDocument:
+            $ref: '../../_index.yaml#/components/examples/UserDocument'
+          UserDocuments:
+            $ref: '../../_index.yaml#/components/examples/UserDocuments'
+          
+  '400':
+    $ref: '../../_index.yaml#/components/responses/Error400'

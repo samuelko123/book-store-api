@@ -14,3 +14,19 @@
     $ref: './books/patch.one.yaml'
   delete:
     $ref: './books/delete.one.yaml'
+/users:
+  post:
+    $ref: './users/post.yaml'
+  get:
+    $ref: './users/get.many.yaml'
+  patch:
+    $ref: './users/patch.many.yaml'
+  delete:
+    $ref: './users/delete.many.yaml'
+/users/{username}:
+  get:
+    $ref: './users/get.one.yaml'
+  patch:
+    $ref: './users/patch.one.yaml'
+  delete:
+    $ref: './users/delete.one.yaml'

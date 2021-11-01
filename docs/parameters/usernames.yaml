@@ -1,0 +1,11 @@
+name: username
+in: query
+required: true
+description: ISBN of the Books to be operated
+schema:
+  type: array
+  items:
+    $ref: '../_index.yaml#/components/schemas/User/properties/username'
+example:
+  - User B
+  - User C

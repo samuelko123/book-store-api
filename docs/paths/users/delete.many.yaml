@@ -1,0 +1,12 @@
+summary: Delete Users
+tags:
+  - users
+
+parameters:
+  - $ref: '../../_index.yaml#/components/parameters/Usernames'
+
+responses:
+  '200':
+    $ref: '../../_index.yaml#/components/responses/DeleteMany200'
+  '400':
+    $ref: '../../_index.yaml#/components/responses/Error400'

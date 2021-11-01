@@ -1,0 +1,24 @@
+summary: Update a User
+tags:
+  - users
+
+parameters:
+  - $ref: '../../_index.yaml#/components/parameters/Username'
+
+requestBody:
+  $ref: '../../_index.yaml#/components/requestBodies/UserUpdate'
+
+responses:
+  '200':
+    description: Returns the created User object
+    content:
+      application/json:
+        schema:
+          $ref: '../../_index.yaml#/components/schemas/UserDocument'
+        examples:
+          UserDocument:
+            $ref: '../../_index.yaml#/components/examples/UserDocument'
+  '400':
+    $ref: '../../_index.yaml#/components/responses/Error400'
+  '404':
+    $ref: '../../_index.yaml#/components/responses/Error404'

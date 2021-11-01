@@ -1,5 +1,9 @@
 ISBN:
   $ref: './isbn.yaml'
-
 ISBNs:
   $ref: './isbns.yaml'
+
+Username:
+  $ref: './username.yaml'
+Usernames:
+  $ref: './usernames.yaml'
