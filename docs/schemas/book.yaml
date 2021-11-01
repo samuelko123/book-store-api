@@ -16,3 +16,8 @@ required:
   - name
   - author
   - price
+example:
+  isbn: 1234567890121
+  name: Book A
+  author: Author A
+  price: 9.99

@@ -4,6 +4,7 @@ const mixins = require('./_mixins')
 function BookController() {
     this.model = model
     this.id_field = 'isbn'
+    this.read_only_fields = []
     this.createOne = mixins.createOne.bind(this)
     this.findOne = mixins.findOne.bind(this)
     this.findMany = mixins.findMany.bind(this)

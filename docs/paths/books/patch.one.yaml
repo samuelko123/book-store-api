@@ -15,9 +15,6 @@ responses:
       application/json:
         schema:
           $ref: '../../_index.yaml#/components/schemas/BookDocument'
-        examples:
-          BookDocument:
-            $ref: '../../_index.yaml#/components/examples/BookDocument'
   '400':
     $ref: '../../_index.yaml#/components/responses/Error400'
   '404':

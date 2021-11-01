@@ -4,6 +4,7 @@ const mixins = require('./_mixins')
 function UserController() {
     this.model = model
     this.id_field = 'username'
+    this.read_only_fields = ['created_at', 'updated_at', 'verified', 'login_attempts']
     this.createOne = mixins.createOne.bind(this)
     this.findOne = mixins.findOne.bind(this)
     this.findMany = mixins.findMany.bind(this)

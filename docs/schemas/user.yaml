@@ -6,8 +6,11 @@ properties:
     type: string
   email:
     type: string
-    
 required:
   - username
   - password
   - email
+example:
+  username: User A
+  email: user_a@gmail.com
+  password: Passw0rd!

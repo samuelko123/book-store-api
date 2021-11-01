@@ -1,9 +1,0 @@
-Book:
-  $ref: './book.yaml'
-BookDocument:
-  $ref: './book-doc.yaml'
-
-User:
-  $ref: './user.yaml'
-UserDocument:
-  $ref: './user-doc.yaml'

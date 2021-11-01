@@ -15,9 +15,6 @@ responses:
       application/json:
         schema:
           $ref: '../../_index.yaml#/components/schemas/UserDocument'
-        examples:
-          UserDocument:
-            $ref: '../../_index.yaml#/components/examples/UserDocument'
   '400':
     $ref: '../../_index.yaml#/components/responses/Error400'
   '404':

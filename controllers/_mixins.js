@@ -81,12 +81,10 @@ exports.findMany = async function (req, res, next) {
 exports.updateOne = async function (req, res, next) {
     try {
         // validate
-        if('created_at' in req.body){
-            throw new CustomError(400, "immutable field - 'created_at'")
-        }
-
-        if('updated_at' in req.body){
-            throw new CustomError(400, "immutable field - 'updated_at'")
+        for (let field in req.body) {
+            if (this.read_only_fields.includes(field)) {
+                throw new CustomError(400, `immutable field - '${field}`)
+            }
         }
 
         // query mongo database
