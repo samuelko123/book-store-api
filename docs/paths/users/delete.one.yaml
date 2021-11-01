@@ -7,7 +7,7 @@ parameters:
 
 responses:
   '200':
-    description: Returns the deleted UserDocument
+    description: Returns the deleted User Document
     content:
       application/json:
         schema:

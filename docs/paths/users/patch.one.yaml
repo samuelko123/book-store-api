@@ -10,7 +10,7 @@ requestBody:
 
 responses:
   '200':
-    description: Returns the created User object
+    description: Returns the updated User Document
     content:
       application/json:
         schema:

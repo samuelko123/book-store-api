@@ -1,28 +1,14 @@
 Book:
   $ref: './book.yaml'
-Books:
-  $ref: './books.yaml'
 BookDocument:
   $ref: './book-doc.yaml'
-BookDocuments:
-  $ref: './book-docs.yaml'
 
 User:
   $ref: './user.yaml'
-Users:
-  $ref: './users.yaml'
 UserDocument:
   $ref: './user-doc.yaml'
-UserDocuments:
-  $ref: './user-docs.yaml'
 
 MongoID:
   $ref: './mongo-id.yaml'
-MongoIDs:
-  $ref: './mongo-ids.yaml'
-BulkUpdateResponse:
-  $ref: './bulk-update-response.yaml'
-BulkDeleteResponse:
-  $ref: './bulk-delete-response.yaml'
 Error:
-  $ref: './errors.yaml'
+  $ref: './error.yaml'

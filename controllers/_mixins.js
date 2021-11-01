@@ -1,22 +1,11 @@
 const { CustomError } = require('../utils/error')
 const constants = require('../utils/constants')
 
-exports.create = async function (req, res, next) {
-    const session = await this.model.startSession()
-    session.startTransaction()
-
+exports.createOne = async function (req, res, next) {
     try {
         // query mongo database
-        let data
-        if (Array.isArray(data)){
-            data = await this.model.insertMany(req.body, { session: session })
-        } else {
-            data = await this.model.create(req.body)
-        }
-        
-        await session.commitTransaction()
-        session.endSession()
-
+        let data = await this.model.create(req.body)
+    
         // sanitise output - e.g. remove password
         if (!!this.sanitiseOutput) {
             data = this.sanitiseOutput(data)
@@ -25,7 +14,6 @@ exports.create = async function (req, res, next) {
         // return result
         res.status(constants.HTTP_STATUS.CREATED).json(data)
     } catch (err) {
-        session.endSession()
         next(err)
     }
 
@@ -98,7 +86,7 @@ exports.updateOne = async function (req, res, next) {
         }
 
         if('updated_at' in req.body){
-            throw new CustomError(400, "immutable field - 'created_at'")
+            throw new CustomError(400, "immutable field - 'updated_at'")
         }
 
         // query mongo database
@@ -109,28 +97,6 @@ exports.updateOne = async function (req, res, next) {
         // return reuslt
         res.json(data)
     } catch (err) {
-        next(err)
-    }
-}
-
-exports.updateMany = async function (req, res, next) {
-    const session = await this.model.startSession()
-    session.startTransaction()
-
-    try {
-        // query mongo database
-        let data = await this.model.updateMany(
-            { [this.id_field]: { $in: req.query[this.id_field] } },
-            req.body,
-            { session: session, upsert: false }
-        )
-        await session.commitTransaction()
-        session.endSession()
-
-        // return result
-        res.json(data)
-    } catch (err) {
-        session.endSession()
         next(err)
     }
 }
@@ -150,24 +116,6 @@ exports.deleteOne = async function (req, res, next) {
         // return result
         res.json(data)
     } catch (err) {
-        next(err)
-    }
-}
-
-exports.deleteMany = async function (req, res, next) {
-    const session = await this.model.startSession()
-    session.startTransaction()
-
-    try {
-        // query mongo database
-        let data = await this.model.deleteMany({ [this.id_field]: { $in: req.query[this.id_field] } }, { session: session })
-        await session.commitTransaction()
-        session.endSession()
-
-        // return result
-        res.json(data)
-    } catch (err) {
-        session.endSession()
         next(err)
     }
 }

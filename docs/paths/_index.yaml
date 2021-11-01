@@ -1,12 +1,8 @@
 /books:
   post:
-    $ref: './books/post.yaml'
+    $ref: './books/post.one.yaml'
   get:
     $ref: './books/get.many.yaml'
-  patch:
-    $ref: './books/patch.many.yaml'
-  delete:
-    $ref: './books/delete.many.yaml'
 /books/{isbn}:
   get:
     $ref: './books/get.one.yaml'
@@ -16,13 +12,9 @@
     $ref: './books/delete.one.yaml'
 /users:
   post:
-    $ref: './users/post.yaml'
+    $ref: './users/post.one.yaml'
   get:
     $ref: './users/get.many.yaml'
-  patch:
-    $ref: './users/patch.many.yaml'
-  delete:
-    $ref: './users/delete.many.yaml'
 /users/{username}:
   get:
     $ref: './users/get.one.yaml'

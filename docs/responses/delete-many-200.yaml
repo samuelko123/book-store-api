@@ -1,5 +1,0 @@
-description: Returns deleted count
-content:
-  application/json:
-    schema:
-      $ref: '../_index.yaml#/components/schemas/BulkDeleteResponse'

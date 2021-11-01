@@ -1,5 +1,0 @@
-description: Returns update result
-content:
-  application/json:
-    schema:
-      $ref: '../_index.yaml#/components/schemas/BulkUpdateResponse'

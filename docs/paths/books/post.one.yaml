@@ -1,0 +1,28 @@
+summary: Create a Book
+tags:
+  - books
+  
+requestBody:
+  required: true
+  description: Book object
+  content:
+    application/json:
+      schema:
+        $ref: '../../_index.yaml#/components/schemas/Book'
+      examples:
+        Book:
+          $ref: '../../_index.yaml#/components/examples/Book'
+        
+responses:
+  '201':
+    description: Returns the created Book Document
+    content:
+      application/json:
+        schema:
+          $ref: '../../_index.yaml#/components/schemas/BookDocument'
+        examples:
+          BookDocument:
+            $ref: '../../_index.yaml#/components/examples/BookDocument'
+          
+  '400':
+    $ref: '../../_index.yaml#/components/responses/Error400'

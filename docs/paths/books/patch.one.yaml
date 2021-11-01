@@ -10,7 +10,7 @@ requestBody:
 
 responses:
   '200':
-    description: Returns the created Book object
+    description: Returns the updated Book Document
     content:
       application/json:
         schema:

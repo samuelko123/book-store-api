@@ -1,0 +1,28 @@
+summary: Create a User
+tags:
+  - users
+  
+requestBody:
+  required: true
+  description: User object
+  content:
+    application/json:
+      schema:
+        $ref: '../../_index.yaml#/components/schemas/User'
+      examples:
+        User:
+          $ref: '../../_index.yaml#/components/examples/User'
+        
+responses:
+  '201':
+    description: Return the created User Document
+    content:
+      application/json:
+        schema:
+          $ref: '../../_index.yaml#/components/schemas/UserDocument'
+        examples:
+          UserDocument:
+            $ref: '../../_index.yaml#/components/examples/UserDocument'
+          
+  '400':
+    $ref: '../../_index.yaml#/components/responses/Error400'

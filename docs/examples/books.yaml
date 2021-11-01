@@ -1,9 +1,0 @@
-value:
-  - isbn: 1234567890122
-    name: Book B
-    author: Author B
-    price: 10
-  - isbn: 1234567890123
-    name: Book C
-    author: Author C
-    price: 20

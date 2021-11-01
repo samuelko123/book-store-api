@@ -5,4 +5,4 @@ content:
     schema:
       type: object
     example:
-      username: 'Donald Trump'
+      username: 'John Doe'
