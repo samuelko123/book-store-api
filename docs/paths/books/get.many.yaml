@@ -8,6 +8,10 @@ parameters:
     schema:
       type: object
       properties:
+        name:
+          type: string
+        author:
+          type: string
         isbn.lt:
           type: integer
         isbn.lte:
@@ -18,10 +22,6 @@ parameters:
           type: integer
         isbn.gt:
           type: integer
-        name:
-          type: string
-        author:
-          type: string
         price.lt:
           type: integer
         price.lte:
