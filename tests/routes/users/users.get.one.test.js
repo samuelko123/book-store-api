@@ -20,7 +20,7 @@ describe('GET /users/:username', () => {
             login_attempts: 0,
             username: test_data.username,
             email: test_data.email,
-            role: 'standard',
+            role: 'user',
             verified: false,
         })
     })

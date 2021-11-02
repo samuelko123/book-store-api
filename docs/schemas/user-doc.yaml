@@ -10,9 +10,9 @@ allOf:
       role:
         type: string
         enum:
-        - standard
+        - user
         - admin
-        default: standard
+        default: user
       verified:
         type: boolean
         readOnly: true
@@ -34,7 +34,7 @@ example:
   _id: 617fa838f67940dc5e90bd5d
   username: User A
   email: user_a@gmail.com
-  role: standard
+  role: user
   verified: false
   login_attempts: 0
   locked: false

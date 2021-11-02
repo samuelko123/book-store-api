@@ -15,7 +15,7 @@ parameters:
         role:
           type: string
           enum:
-          - standard
+          - user
           - admin
         verified:
           type: boolean

@@ -19,7 +19,7 @@ describe('GET /users', () => {
                 locked: false,
                 login_attempts: 0,
                 verified: false,
-                role: 'standard',
+                role: 'user',
             }])
         )
     })

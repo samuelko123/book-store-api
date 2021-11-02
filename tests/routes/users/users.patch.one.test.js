@@ -99,7 +99,7 @@ describe('PATCH /users/:username', () => {
             login_attempts: 0,
             username: user.username,
             email: user.email,
-            role: 'standard',
+            role: 'user',
             verified: false,
         })
     })
@@ -137,7 +137,7 @@ describe('PATCH /users/:username', () => {
             login_attempts: 0,
             username: user.username,
             email: user.email,
-            role: 'standard',
+            role: 'user',
             verified: false,
         })
     })
@@ -175,7 +175,7 @@ describe('PATCH /users/:username', () => {
             login_attempts: 0,
             username: user.username,
             email: user.email,
-            role: 'standard',
+            role: 'user',
             verified: false,
         })
     })
