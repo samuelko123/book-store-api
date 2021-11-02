@@ -2,29 +2,60 @@ summary: Find Books
 tags:
   - books
 
-x-allow-unknown-query-parameters: true
 parameters:
-  - in: query
-    name: freeform
-    description: >-
-      <li>Mongoose queries (sort/skip/limit/select) are passed to Mongoose query</li>
-      <li>For limit, default = 25, max = 100
-      <li>Use field names (e.g. isbn, author etc.) for keyword search (case-insensitive)</li>
-      <li>Use comparison operator (e.g. $lt, $eq, $gte etc.) for numeric fields </li>
-      <br />
+  - name: filter
+    in: query
     schema:
       type: object
-      example:
-        price$gte: 10
-        price$lte: 50
-        author: book abc
-        sort: -name
-        skip: 1
-        limit: 2
-        select: name author
+      properties:
+        isbn.lt:
+          type: integer
+        isbn.lte:
+          type: integer
+        isbn.eq:
+          type: integer
+        isbn.gte:
+          type: integer
+        isbn.gt:
+          type: integer
+        name:
+          type: string
+        author:
+          type: string
+        price.lt:
+          type: integer
+        price.lte:
+          type: integer
+        price.eq:
+          type: integer
+        price.gte:
+          type: integer
+        price.gt:
+          type: integer
+  - name: sort
+    in: query
+    schema:
+      type: array
+      items:
+        type: string
+        enum:
+          - 'isbn'
+          - '-isbn'
+          - 'name'
+          - '-name'
+          - 'author'
+          - '-author'
+          - 'price'
+          - '-price'
+  - $ref: '../../_index.yaml#/components/parameters/Limit'
+  - $ref: '../../_index.yaml#/components/parameters/Skip'
 
 responses:
   '200':
-    $ref: '../../_index.yaml#/components/responses/GetMany200'
+    description: Return Book Documents
+    content:
+      application/json:
+        schema:
+          $ref: '../../_index.yaml#/components/schemas/BookDocuments'
   '400':
     $ref: '../../_index.yaml#/components/responses/Error400'

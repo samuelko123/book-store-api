@@ -1,8 +1,0 @@
-required: true
-description: Any field(s) in User schema
-content:
-  application/json:
-    schema:
-      type: object
-    example:
-      username: 'John Doe'

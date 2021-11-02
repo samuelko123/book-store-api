@@ -1,9 +1,0 @@
-required: true
-description: Any field(s) in Book schema
-content:
-  application/json:
-    schema:
-      type: object
-    example:
-      name: 'Snow White'
-      author: 'John Doe'

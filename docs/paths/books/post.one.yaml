@@ -8,15 +8,22 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../_index.yaml#/components/schemas/Book'
+        allOf:
+          - $ref: '../../_index.yaml#/components/schemas/Book'
+          - required:
+            - isbn
+            - name
+            - author
+            - price
         
 responses:
   '201':
-    description: Returns the created Book Document
+    description: Return the created Book Document
     content:
       application/json:
         schema:
-          $ref: '../../_index.yaml#/components/schemas/BookDocument'
-          
+          $ref: '../../_index.yaml#/components/schemas/BookDocument'        
   '400':
     $ref: '../../_index.yaml#/components/responses/Error400'
+  '415':
+    $ref: '../../_index.yaml#/components/responses/Error415'

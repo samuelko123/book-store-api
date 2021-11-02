@@ -20,18 +20,6 @@ describe('GET /books/:isbn', () => {
         })
     })
 
-    test('invalid param', async () => {
-        // Request
-        let res = await global.request
-            .get('/api/books/invalid-isbn')
-
-        // Assert
-        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
-        expect(res.body).toEqual({
-            error: expect.any(String),
-        })
-    })
-
     test('not found', async () => {
         // Request
         let res = await global.request
@@ -40,7 +28,7 @@ describe('GET /books/:isbn', () => {
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)
         expect(res.body).toEqual({
-            error: expect.any(String),
+            error: expect.stringContaining(global.constants.TEST_ERRORS.NO_DOCUMENT_FOUND)
         })
     })
 })

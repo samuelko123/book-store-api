@@ -1,28 +1,42 @@
 type: object
-properties:
-  username:
-    type: string
-  email:
-    type: string
-  role:
-    type: string
-    default: standard
-  verified:
-    type: boolean
-    readOnly: true
-  login_attempts:
-    type: integer
-    readOnly: true
-  locked:
-    type: boolean
-    readOnly: true
+allOf:
+  - $ref: '../_index.yaml#/components/schemas/MongoID'
+  - type: object
+    properties:
+      username:
+        type: string
+      email:
+        type: string
+      role:
+        type: string
+        enum:
+        - standard
+        - admin
+        default: standard
+      verified:
+        type: boolean
+        readOnly: true
+      login_attempts:
+        type: integer
+        readOnly: true
+      locked:
+        type: boolean
+        readOnly: true
+      created_at:
+        type: string
+        format: date-time
+        readOnly: true
+      updated_at:
+        type: string
+        format: date-time
+        readOnly: true
 example:
+  _id: 617fa838f67940dc5e90bd5d
   username: User A
   email: user_a@gmail.com
   role: standard
   verified: false
   login_attempts: 0
   locked: false
-  _id: 617fa838f67940dc5e90bd5d
   created_at: 2000-01-01T00:00:00.000Z
   updated_at: 2000-01-01T00:00:00.000Z

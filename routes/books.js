@@ -4,7 +4,7 @@ const controller = require('../controllers/books')
 
 router.post('/', controller.createOne)
 router.get('/:isbn', controller.findOne)
-router.get('/', controller.sanitiseQuery, controller.findMany)
+router.get('/', controller.findMany)
 router.patch('/:isbn', controller.updateOne)
 router.delete('/:isbn', controller.deleteOne)
 

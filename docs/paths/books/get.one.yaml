@@ -7,7 +7,7 @@ parameters:
 
 responses:
   '200':
-    description: Returns a Book Document
+    description: Return a Book Document
     content:
       application/json:
         schema:

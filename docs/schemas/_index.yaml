@@ -2,11 +2,15 @@ Book:
   $ref: './book.yaml'
 BookDocument:
   $ref: './book-doc.yaml'
+BookDocuments:
+  $ref: './book-docs.yaml'
 
 User:
   $ref: './user.yaml'
 UserDocument:
   $ref: './user-doc.yaml'
+UserDocuments:
+  $ref: './user-docs.yaml'
 
 MongoID:
   $ref: './mongo-id.yaml'

@@ -10,12 +10,6 @@ properties:
   price:
     type: number
     minimum: 0
-    exclusiveMinimum: true
-required:
-  - isbn
-  - name
-  - author
-  - price
 example:
   isbn: 1234567890121
   name: Book A

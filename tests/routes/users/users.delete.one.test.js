@@ -1,7 +1,7 @@
 process.env.TEST_SUITE = __filename
 
 describe('DELETE /users/:username', () => {
-    test('happy path - return deleted record', async () => {
+    test('success - return deleted record', async () => {
         // Prepare
         let test_data = global.clone(global.seed_data.users)
         test_data = test_data[0]

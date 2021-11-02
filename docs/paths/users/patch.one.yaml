@@ -6,11 +6,16 @@ parameters:
   - $ref: '../../_index.yaml#/components/parameters/Username'
 
 requestBody:
-  $ref: '../../_index.yaml#/components/requestBodies/UserUpdate'
+  required: true
+  description: Any field(s) in User schema
+  content:
+    application/json:
+      schema:
+        $ref: '../../_index.yaml#/components/schemas/User'
 
 responses:
   '200':
-    description: Returns the updated User Document
+    description: Return the updated User Document
     content:
       application/json:
         schema:
@@ -19,3 +24,5 @@ responses:
     $ref: '../../_index.yaml#/components/responses/Error400'
   '404':
     $ref: '../../_index.yaml#/components/responses/Error404'
+  '415':
+    $ref: '../../_index.yaml#/components/responses/Error415'

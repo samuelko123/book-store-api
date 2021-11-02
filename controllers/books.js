@@ -10,7 +10,6 @@ function BookController() {
     this.findMany = mixins.findMany.bind(this)
     this.updateOne = mixins.updateOne.bind(this)
     this.deleteOne = mixins.deleteOne.bind(this)
-    this.sanitiseQuery = mixins.sanitiseQuery.bind(this)
 }
 
 module.exports = new BookController()

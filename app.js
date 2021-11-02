@@ -69,6 +69,7 @@ module.exports.create = async (session_store) => {
         res.json(require(constants.OPEN_API_JSON.FILE))
     })
 
+    // swagger ui
     app.use(
         '/docs',
         swaggerUi.serve,
@@ -80,20 +81,20 @@ module.exports.create = async (session_store) => {
         })
     )
 
-    // install API validation
+    // api validation
     app.use(
         OpenApiValidator.middleware({
             apiSpec: constants.OPEN_API_JSON.FILE,
             validateRequests: true,
             validateResponses: (process.env.NODE_ENV !== 'production'),
-            validateApiSpec: true,
+            validateApiSpec: false,
         }),
     )
 
-    // API route
+    // api route
     app.use('/api', require('./routes'))
 
-    // Test route (useful for mocking)
+    // test route (useful for mocking)
     app.use((req, res, next) => {
         empty.empty_fn()
         next()
@@ -104,7 +105,7 @@ module.exports.create = async (session_store) => {
         next(new CustomError(constants.HTTP_STATUS.NOT_FOUND, 'Not Found'))
     })
 
-    // 'Error' route
+    // error route
     app.use((err, req, res, next) => {
         try {
             err = error_handler.preprocess_error(err)

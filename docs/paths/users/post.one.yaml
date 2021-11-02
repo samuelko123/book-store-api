@@ -8,7 +8,12 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '../../_index.yaml#/components/schemas/User'
+        allOf:
+          - $ref: '../../_index.yaml#/components/schemas/User'
+          - required:
+            - username
+            - password
+            - email
         
 responses:
   '201':
@@ -17,6 +22,7 @@ responses:
       application/json:
         schema:
           $ref: '../../_index.yaml#/components/schemas/UserDocument'
-          
   '400':
     $ref: '../../_index.yaml#/components/responses/Error400'
+  '415':
+    $ref: '../../_index.yaml#/components/responses/Error415'

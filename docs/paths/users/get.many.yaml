@@ -2,28 +2,73 @@ summary: Find Users
 tags:
   - users
 
-x-allow-unknown-query-parameters: true
 parameters:
-  - in: query
-    name: freeform
-    description: >-
-      <li>Mongoose queries (sort/skip/limit/select) are passed to Mongoose query</li>
-      <li>For limit, default = 25, max = 100
-      <li>Use field names (e.g. username etc.) for keyword search (case-insensitive)</li>
-      <li>Use comparison operator (e.g. $lt, $eq, $gte etc.) for numeric fields </li>
-      <br />
+  - name: filter
+    in: query
     schema:
       type: object
-      example:
-        login_attempts$eq: 0
-        username: user
-        sort: -username
-        skip: 1
-        limit: 2
-        select: username
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum:
+          - standard
+          - admin
+        verified:
+          type: boolean
+        locked:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        login_attempts.lt:
+          type: integer
+        login_attempts.lte:
+          type: integer
+        login_attempts.eq:
+          type: integer
+        login_attempts.gte:
+          type: integer
+        login_attempts.gt:
+          type: integer
+  - name: sort
+    in: query
+    schema:
+      type: array
+      items:
+        type: string
+        enum:
+          - 'username'
+          - '-username'
+          - 'email'
+          - '-email'
+          - 'role'
+          - '-role'
+          - 'verified'
+          - '-verified'
+          - 'locked'
+          - '-locked'
+          - 'created_at'
+          - '-created_at'
+          - 'updated_at'
+          - '-updated_at'
+          - 'login_attempts'
+          - '-login_attempts'
+  - $ref: '../../_index.yaml#/components/parameters/Limit'
+  - $ref: '../../_index.yaml#/components/parameters/Skip'
 
 responses:
   '200':
-    $ref: '../../_index.yaml#/components/responses/GetMany200'
+    description: Return User Documents
+    content:
+      application/json:
+        schema:
+          $ref: '../../_index.yaml#/components/schemas/UserDocuments'
   '400':
     $ref: '../../_index.yaml#/components/responses/Error400'

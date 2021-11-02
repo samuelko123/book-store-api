@@ -1,0 +1,7 @@
+description: Unsupported Media Type
+content:
+  application/json:
+    schema:
+      $ref: '../_index.yaml#/components/schemas/Error'
+    example:
+      error: 'unsupported media type undefined'

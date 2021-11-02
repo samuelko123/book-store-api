@@ -6,11 +6,16 @@ parameters:
   - $ref: '../../_index.yaml#/components/parameters/ISBN'
 
 requestBody:
-  $ref: '../../_index.yaml#/components/requestBodies/BookUpdate'
+  required: true
+  description: Any field(s) in Book schema
+  content:
+    application/json:
+      schema:
+        $ref: '../../_index.yaml#/components/schemas/Book'
 
 responses:
   '200':
-    description: Returns the updated Book Document
+    description: Return the updated Book Document
     content:
       application/json:
         schema:
@@ -19,3 +24,5 @@ responses:
     $ref: '../../_index.yaml#/components/responses/Error400'
   '404':
     $ref: '../../_index.yaml#/components/responses/Error404'
+  '415':
+    $ref: '../../_index.yaml#/components/responses/Error415'

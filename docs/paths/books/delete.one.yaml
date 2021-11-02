@@ -7,7 +7,7 @@ parameters:
 
 responses:
   '200':
-    description: Returns the deleted Book Document
+    description: Return the deleted Book Document
     content:
       application/json:
         schema:

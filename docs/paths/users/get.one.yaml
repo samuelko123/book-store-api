@@ -7,7 +7,7 @@ parameters:
 
 responses:
   '200':
-    description: Returns a User Document
+    description: Return a User Document
     content:
       application/json:
         schema:

@@ -1,0 +1,9 @@
+name: limit
+in: query
+description: >
+  <li>Minimum value: 0</li>
+  <li>Maximum value: 100</li>
+schema:
+  type: integer
+  minimum: 0
+  default: 25

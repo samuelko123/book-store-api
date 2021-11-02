@@ -4,7 +4,7 @@ const controller = require('../controllers/users')
 
 router.post('/', controller.createOne)
 router.get('/:username', controller.findOne)
-router.get('/', controller.sanitiseQuery, controller.findMany)
+router.get('/', controller.findMany)
 router.patch('/:username', controller.updateOne)
 router.delete('/:username', controller.deleteOne)
 

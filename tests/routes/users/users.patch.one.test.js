@@ -66,7 +66,7 @@ describe('PATCH /users/:username', () => {
         })
     })
 
-    test('duplicate key', async () => {
+    test('invalid update - duplicate key', async () => {
         // Prepare
         let user = global.seed_data.users[0]
         let username = user.username
@@ -177,6 +177,22 @@ describe('PATCH /users/:username', () => {
             email: user.email,
             role: 'standard',
             verified: false,
+        })
+    })
+
+    test('missing request body', async () => {
+        // Prepare
+        let user = global.seed_data.users[0]
+        let username = user.username
+
+        // Request
+        let res = await global.request
+            .patch(`/api/users/${username}`)
+
+        // Assert response
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE)
+        expect(res.body).toEqual({
+            error: expect.stringContaining(global.constants.TEST_ERRORS.UNSUPPORTED_MEDIA_TYPE)
         })
     })
 })

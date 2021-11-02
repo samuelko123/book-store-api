@@ -2,5 +2,5 @@ Error400:
   $ref: './error-400.yaml'
 Error404:
   $ref: './error-404.yaml'
-GetMany200:
-  $ref: './get-many-200.yaml'
+Error415:
+  $ref: './error-415.yaml'
