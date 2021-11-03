@@ -16,7 +16,6 @@ describe('GET /users', () => {
                 updated_at: expect.any(String),
                 username: expect.any(String),
                 email: expect.any(String),
-                locked: false,
                 login_attempts: 0,
                 verified: false,
                 role: 'user',

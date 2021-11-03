@@ -19,7 +19,6 @@ describe('DELETE /users/:username', () => {
             _id: expect.any(String),
             created_at: expect.any(String),
             updated_at: expect.any(String),
-            locked: false,
             login_attempts: 0,
             username: test_data.username,
             email: test_data.email,

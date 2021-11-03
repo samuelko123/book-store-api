@@ -19,8 +19,6 @@ parameters:
           - admin
         verified:
           type: boolean
-        locked:
-          type: boolean
         created_at:
           type: string
           format: date-time
@@ -52,8 +50,6 @@ parameters:
           - '-role'
           - 'verified'
           - '-verified'
-          - 'locked'
-          - '-locked'
           - 'created_at'
           - '-created_at'
           - 'updated_at'

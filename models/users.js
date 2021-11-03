@@ -54,11 +54,6 @@ const schema = new mongoose.Schema({
         required: true,
         default: 0
     },
-    locked: {
-        type: Boolean,
-        required: true,
-        default: false,
-    }
 }, {
     versionKey: false,
     strict: 'throw',
