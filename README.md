@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/samuelko123/book-store-api/branch/master/graph/badge.svg?token=TCJCVASP7I)](https://codecov.io/gh/samuelko123/book-store-api)
 ![licence badge](https://img.shields.io/github/license/samuelko123/book-store-api?v=1)
 
-This hobbyist API project aims to support online book store.
+This personal project aims to support online book store.
 
 ---
 
