@@ -5,4 +5,4 @@ required: true
 schema:
   $ref: '../_index.yaml#/components/schemas/User/properties/username'
 example:
-  User A
+  user11

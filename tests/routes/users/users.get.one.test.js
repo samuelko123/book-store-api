@@ -16,6 +16,7 @@ describe('GET /users/:username', () => {
             _id: expect.any(String),
             created_at: expect.any(String),
             updated_at: expect.any(String),
+            locked_until: new Date(0).toISOString(),
             login_attempts: 0,
             username: test_data.username,
             email: test_data.email,
@@ -24,15 +25,38 @@ describe('GET /users/:username', () => {
         })
     })
 
-    test('not found', async () => {
+    test('non-existent id', async () => {
         // Request
         let res = await global.request
             .get('/api/users/no-such-user')
 
         // Assert
-        expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.NO_CONTENT)
+        expect(res.body).toEqual({})
+    })
+
+    test('server error', async () => {
+        // Prepare
+        let test_data = global.seed_data.books[0]
+
+        const controller = require('../../../controllers/users')
+        const err_msg = 'Test Error'
+        let spy = {
+            fn: jest.spyOn(controller, 'clean_input_obj').mockImplementation(() => {
+                throw Error(err_msg)
+            }),
+        }
+
+        // Request
+        let res = await global.request
+            .get(`/api/users/${test_data.username}`)
+
+        // Assert
+        expect(spy.fn).toHaveBeenCalledTimes(1)
+
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.SERVER_ERROR)
         expect(res.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.NO_DOCUMENT_FOUND)
+            error: err_msg
         })
     })
 })

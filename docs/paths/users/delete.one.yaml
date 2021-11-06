@@ -7,13 +7,6 @@ parameters:
 
 responses:
   '200':
-    description: Return the deleted User Document
-    content:
-      application/json:
-        schema:
-          $ref: '../../_index.yaml#/components/schemas/UserDocument'
-
+    $ref: '../../_index.yaml#/components/responses/MongoDeleteOne'
   '400':
-    $ref: '../../_index.yaml#/components/responses/Error400'
-  '404':
-    $ref: '../../_index.yaml#/components/responses/Error404'
+    $ref: '../../_index.yaml#/components/responses/Http400'

@@ -1,7 +1,7 @@
 process.env.TEST_SUITE = __filename
 
 describe('POST /users - single record', () => {
-    test('success - return created record', async () => {
+    test('happy path', async () => {
         // Prepare
         let test_data = global.clone(global.test_data.users)
         test_data = test_data[0]
@@ -12,14 +12,25 @@ describe('POST /users - single record', () => {
             .send(test_data)
 
         let res2 = await global.request
-            .get('/api/users')
+            .get(`/api/users/${test_data.username}`)
+
+        let res3 = await global.request
+            .get(`/api/users/${global.seed_data.users[0].username}`)
 
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.CREATED)
         expect(res1.body).toEqual({
+            acknowledged: true,
+            insertedId: expect.any(String),
+        })
+
+        // Assert records inserted
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
+        expect(res2.body).toEqual({
             _id: expect.any(String),
             created_at: expect.any(String),
             updated_at: expect.any(String),
+            locked_until: new Date(0).toISOString(),
             login_attempts: 0,
             username: test_data.username,
             email: test_data.email,
@@ -27,9 +38,45 @@ describe('POST /users - single record', () => {
             verified: false,
         })
 
+        // Assert new record has different created_at timestamp
+        expect(res3.status).toEqual(global.constants.HTTP_STATUS.OK)
+        expect(res3.body.created_at).not.toEqual(res2.body.created_at)
+    })
+
+    test('happy path - override default value', async () => {
+        // Prepare
+        let test_data = global.clone(global.test_data.users)
+        test_data = test_data[0]
+        test_data.verified = true
+
+        // Request
+        let res1 = await global.request
+            .post('/api/users')
+            .send(test_data)
+
+        let res2 = await global.request
+            .get(`/api/users/${test_data.username}`)
+
+        // Assert response
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.CREATED)
+        expect(res1.body).toEqual({
+            acknowledged: true,
+            insertedId: expect.any(String),
+        })
+
         // Assert records inserted
         expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res2.body.length).toEqual(global.seed_data.users.length + 1)
+        expect(res2.body).toEqual({
+            _id: expect.any(String),
+            created_at: expect.any(String),
+            updated_at: expect.any(String),
+            locked_until: new Date(0).toISOString(),
+            login_attempts: 0,
+            username: test_data.username,
+            email: test_data.email,
+            role: 'user',
+            verified: true,
+        })
     })
 
     test('duplicate key', async () => {
@@ -98,7 +145,7 @@ describe('POST /users - single record', () => {
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.VALIDATION_FAILED)
+            error: expect.stringContaining('request.body.password should match pattern')
         })
 
         // Assert no records inserted

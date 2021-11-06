@@ -15,14 +15,8 @@ requestBody:
 
 responses:
   '200':
-    description: Return the updated User Document
-    content:
-      application/json:
-        schema:
-          $ref: '../../_index.yaml#/components/schemas/UserDocument'
+    $ref: '../../_index.yaml#/components/responses/MongoUpdateOne'
   '400':
-    $ref: '../../_index.yaml#/components/responses/Error400'
-  '404':
-    $ref: '../../_index.yaml#/components/responses/Error404'
+    $ref: '../../_index.yaml#/components/responses/Http400'
   '415':
-    $ref: '../../_index.yaml#/components/responses/Error415'
+    $ref: '../../_index.yaml#/components/responses/Http415'

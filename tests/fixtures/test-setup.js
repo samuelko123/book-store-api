@@ -1,8 +1,6 @@
 const supertest = require('supertest')
 const path = require('path')
-const mongoose = require('mongoose')
-
-const db = require('../../utils/db')
+const mongo = require('../../mongo')
 
 beforeAll(async () => {
     // constants
@@ -11,14 +9,15 @@ beforeAll(async () => {
     global.test_data = require('./test_data')
     global.clone = require('rfdc')()
 
-    // mongo db - different database for each test suite
+    // create db name for each test suite
     let db_name = 'db-' + path.basename(process.env.TEST_SUITE).split('.').join('-')
-    await db.connect(process.env.mongo_uri_test, {
-        dbName: db_name
-    })
+    let uri = process.env.mongo_uri_test.replace('?', db_name + '?')
+
+    // connect to mongo db
+    await mongo.connect(uri)
 
     // session store
-    const session_store = db.create_session_store()
+    const session_store = await mongo.create_session_store()
 
     // express server
     const server = await require('../../app').create(session_store)
@@ -26,23 +25,25 @@ beforeAll(async () => {
 })
 
 beforeEach(async () => {
-    if (process.env.TEST_SUITE.includes('routes')) {
-        // clear db
-        const collections = Object.keys(mongoose.connection.collections)
-        for (let name of collections) {
-            let collection = mongoose.connection.collections[name]
-            await collection.deleteMany()
-        }
+    // clear db
+    let collections = await mongo.db.listCollections().toArray()
+    let coll_names = collections.map(x => x.name)
+    for (let coll_name of coll_names) {
+        await mongo.db.collection(coll_name).deleteMany({})
+    }
 
-        // seed db
-        for (let model_name in global.seed_data){
-            let model = require(`../../models/${model_name}`)
-            await model.create(global.seed_data[model_name])
+    // seed db
+    for (let coll_name of constants.MONGO_SCHEMAS) {
+        let data = global.clone(global.seed_data[coll_name])
+        let controller = require(`../../controllers/${coll_name}`)
+        controller.clean_input_arr(data)
+        if (!!controller.add_defaults_to_arr){
+            controller.add_defaults_to_arr(data)
         }
+        await mongo.db.collection(coll_name).insertMany(data)
     }
 })
 
 afterAll(async () => {
-    await mongoose.connection.dropDatabase()
-    await mongoose.disconnect()
+    await mongo.client.close()
 })

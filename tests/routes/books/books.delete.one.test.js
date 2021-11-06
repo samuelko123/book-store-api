@@ -1,7 +1,7 @@
 process.env.TEST_SUITE = __filename
 
 describe('DELETE /books/:isbn', () => {
-    test('success - return deleted record', async () => {
+    test('happy path', async () => {
         // Prepare
         let test_data = global.seed_data.books[0]
 
@@ -15,11 +15,8 @@ describe('DELETE /books/:isbn', () => {
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res1.body).toEqual({
-            _id: expect.any(String),
-            isbn: test_data.isbn,
-            name: test_data.name,
-            author: test_data.author,
-            price: test_data.price
+            acknowledged: true,
+            deletedCount: 1,
         })
 
         // Assert records deleted
@@ -36,9 +33,35 @@ describe('DELETE /books/:isbn', () => {
             .delete(`/api/books/${isbn}`)
 
         // Assert
-        expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.NO_DOCUMENT_FOUND)
+            acknowledged: true,
+            deletedCount: 0,
+        })
+    })
+
+    test('server error', async () => {
+        // Prepare
+        let test_data = global.seed_data.books[0]
+
+        const controller = require('../../../controllers/books')
+        const err_msg = 'Test Error'
+        let spy = {
+            fn: jest.spyOn(controller, 'clean_input_obj').mockImplementation(() => {
+                throw Error(err_msg)
+            }),
+        }
+
+        // Request
+        let res = await global.request
+            .delete(`/api/books/${test_data.isbn}`)
+
+        // Assert
+        expect(spy.fn).toHaveBeenCalledTimes(1)
+
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.SERVER_ERROR)
+        expect(res.body).toEqual({
+            error: err_msg
         })
     })
 })

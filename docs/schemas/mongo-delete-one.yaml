@@ -1,0 +1,9 @@
+type: object
+properties:
+  acknowledged:
+    type: boolean
+  deletedCount:
+    type: integer
+example:
+  acknowledged: true
+  deletedCount: 1

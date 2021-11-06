@@ -11,7 +11,6 @@ const session = require('express-session')
 
 const { CustomError } = require('./utils/error')
 const empty = require('./utils/empty')
-const error_handler = require('./utils/error_handler')
 const constants = require('./utils/constants')
 const logger = require('./utils/logger')
 
@@ -39,7 +38,7 @@ module.exports.create = async (session_store) => {
 
     // initialize session middlware
     app.use(session({
-        name: 'book_store_session_id',
+        name: 'book_store_api_session_id',
         secret: process.env.SESSION_SECRET_KEY, // this is used to encrypt session id
         saveUninitialized: false, // prevent empty sessions
         resave: false, // don't save session if unmodified
@@ -58,7 +57,7 @@ module.exports.create = async (session_store) => {
         req.session.last_visited = new Date().toISOString()
         next()
     })
-    
+
     // home page => API Documentation
     app.get('/', (req, res, next) => {
         res.redirect('/docs')
@@ -108,8 +107,24 @@ module.exports.create = async (session_store) => {
     // error route
     app.use((err, req, res, next) => {
         try {
-            err = error_handler.preprocess_error(err)
-        } catch (err_in_handler) {
+            if (
+                !!err.name
+                && err.name.startsWith('Mongo')
+                && constants.MONGO_USER_ERRORS.includes(err.code)
+            ){
+                // set http status to 400
+                err.status = constants.HTTP_STATUS.BAD_REQUEST
+            }
+            
+            // log error if http status is server error
+            err.status = err.status || constants.HTTP_STATUS.SERVER_ERROR
+            if (err.status >= 500 && err.status < 600) {
+                logger.error(err.stack)
+            } else {
+                logger.warn(err)
+            }
+        } catch (err_in_handler){
+            // log error during error handling
             logger.error(err_in_handler.stack)
         }
 

@@ -1,6 +1,5 @@
-const empty = require('../utils/empty')
-const error_handler = require('../utils/error_handler')
-const logger = require('../utils/logger')
+const empty = require('../../utils/empty')
+const logger = require('../../utils/logger')
 process.env.TEST_SUITE = __filename
 
 describe('routing error handling', () => {
@@ -20,7 +19,7 @@ describe('routing error handling', () => {
         // Prepare
         let spy = {
             empty_fn: jest.spyOn(empty, 'empty_fn').mockImplementation(() => {
-                throw Error('Unexpected Error')
+                throw Error('Test Error')
             }),
             logger: jest.spyOn(logger, 'error')
         }
@@ -32,7 +31,7 @@ describe('routing error handling', () => {
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.SERVER_ERROR)
         expect(res.body).toEqual({
-            error: 'Unexpected Error'
+            error: 'Test Error'
         })
         expect(spy.empty_fn).toHaveBeenCalledTimes(1)
         expect(spy.logger).toHaveBeenCalledTimes(1)
@@ -41,10 +40,10 @@ describe('routing error handling', () => {
     test('error in error handler', async () => {
         // Prepare
         let spy = {
-            error_handler: jest.spyOn(error_handler, 'preprocess_error').mockImplementation((err) => {
+            logger_warn: jest.spyOn(logger, 'warn').mockImplementation((err) => {
                 throw Error('Test Error in Error Handler')
             }),
-            logger: jest.spyOn(logger, 'error')
+            logger_error: jest.spyOn(logger, 'error')
         }
 
         // Request
@@ -53,10 +52,7 @@ describe('routing error handling', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)
-        expect(res.body).toEqual({
-            error: 'Not Found'
-        })
-        expect(spy.error_handler).toHaveBeenCalledTimes(1)
-        expect(spy.logger).toHaveBeenCalledTimes(1)
+        expect(spy.logger_warn).toHaveBeenCalledTimes(1) // 404 Not Found
+        expect(spy.logger_error).toHaveBeenCalledTimes(1) // caused by error thrown in logger.warn
     })
 })

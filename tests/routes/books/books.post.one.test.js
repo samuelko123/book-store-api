@@ -1,7 +1,7 @@
 process.env.TEST_SUITE = __filename
 
 describe('POST /books', () => {
-    test('success - return created record', async () => {
+    test('happy path', async () => {
         // Prepare
         let test_data = global.clone(global.test_data.books)
         test_data = test_data[0]
@@ -12,21 +12,24 @@ describe('POST /books', () => {
             .send(test_data)
 
         let res2 = await global.request
-            .get('/api/books')
+            .get(`/api/books/${test_data.isbn}`)
 
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.CREATED)
         expect(res1.body).toEqual({
+            acknowledged: true,
+            insertedId: expect.any(String),
+        })
+
+        // Assert records inserted
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
+        expect(res2.body).toEqual({
             _id: expect.any(String),
             isbn: test_data.isbn,
             name: test_data.name,
             author: test_data.author,
             price: test_data.price
         })
-
-        // Assert records inserted
-        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res2.body.length).toEqual(global.seed_data.books.length + 1)
     })
 
     test('duplicate key', async () => {

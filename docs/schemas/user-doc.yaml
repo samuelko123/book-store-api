@@ -15,24 +15,24 @@ allOf:
         default: user
       verified:
         type: boolean
-        readOnly: true
       login_attempts:
         type: integer
-        readOnly: true
+      locked_until:
+        type: string
+        format: date-time
       created_at:
         type: string
         format: date-time
-        readOnly: true
       updated_at:
         type: string
         format: date-time
-        readOnly: true
 example:
   _id: 617fa838f67940dc5e90bd5d
-  username: User A
+  username: user11
   email: user_a@gmail.com
   role: user
   verified: false
   login_attempts: 0
+  locked_until: 1970-01-01T00:00:00.000Z
   created_at: 2000-01-01T00:00:00.000Z
   updated_at: 2000-01-01T00:00:00.000Z

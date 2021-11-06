@@ -14,5 +14,11 @@ UserDocuments:
 
 MongoID:
   $ref: './mongo-id.yaml'
+MongoInsertOneResponse:
+  $ref: './mongo-insert-one.yaml'
+MongoUpdateOneResponse:
+  $ref: './mongo-update-one.yaml'
+MongoDeleteOneResponse:
+  $ref: './mongo-delete-one.yaml'
 Error:
   $ref: './error.yaml'

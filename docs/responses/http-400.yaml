@@ -1,4 +1,4 @@
-description: Bad Request
+description: Bad Request. It means request does not pass validation.
 content:
   application/json:
     schema:

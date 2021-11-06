@@ -57,5 +57,7 @@ responses:
       application/json:
         schema:
           $ref: '../../_index.yaml#/components/schemas/BookDocuments'
+  '204':
+    $ref: '../../_index.yaml#/components/responses/Http204'
   '400':
-    $ref: '../../_index.yaml#/components/responses/Error400'
+    $ref: '../../_index.yaml#/components/responses/Http400'

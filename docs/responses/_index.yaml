@@ -1,6 +1,12 @@
-Error400:
-  $ref: './error-400.yaml'
-Error404:
-  $ref: './error-404.yaml'
-Error415:
-  $ref: './error-415.yaml'
+MongoInsertOne:
+  $ref: './mongo-insert-one.yaml'
+MongoUpdateOne:
+  $ref: './mongo-update-one.yaml'
+MongoDeleteOne:
+  $ref: './mongo-delete-one.yaml'
+Http400:
+  $ref: './http-400.yaml'
+Http415:
+  $ref: './http-415.yaml'
+Http204:
+  $ref: './http-204.yaml'

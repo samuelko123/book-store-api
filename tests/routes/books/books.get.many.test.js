@@ -1,7 +1,7 @@
 process.env.TEST_SUITE = __filename
 
 describe('GET /books', () => {
-    test('no filters', async () => {
+    test('blank query', async () => {
         // Request
         let res = await global.request
             .get(`/api/books`)
@@ -20,11 +20,20 @@ describe('GET /books', () => {
         )
     })
 
+    test('no records found', async () => {
+        // Request
+        let res = await global.request
+            .get(`/api/books?name=no_such_book`)
+
+        // Assert
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.NO_CONTENT)
+        expect(res.body).toEqual({})
+    })
+
     test('limit - default and max', async () => {
         // Prepare
-        const model = require('../../../models/books')
         let extra_data = Array.from(Array(120).keys())
-        extra_data = extra_data.map((elem, index) => {
+        extra_data = extra_data.map((_, index) => {
             return {
                 isbn: 1000000000000 + index,
                 name: 'Book ABC',
@@ -32,8 +41,10 @@ describe('GET /books', () => {
                 price: 100
             }
         })
-        await model.create(extra_data)
+        require('../../../controllers/books').clean_input_arr(extra_data)
 
+        const { db } = require('../../../mongo')
+        await db.collection('books').insertMany(extra_data)
 
         // Request
         let res1 = await global.request
@@ -58,7 +69,7 @@ describe('GET /books', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res.body.length).toEqual(2)
+        expect(res.body.length).toEqual(1)
     })
 
     test('numeric filters', async () => {
@@ -71,24 +82,15 @@ describe('GET /books', () => {
         expect(res.body.length).toEqual(3)
     })
 
-    test('sort asc', async () => {
+    test('sort', async () => {
         // Request
         let res = await global.request
-            .get('/api/books?sort=name')
+            .get('/api/books?sort=-name&sort=author')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res.body.map(x => x.name)).toEqual(['Book A', 'Book AB', 'Book AC', 'Book D', 'Book E'])
-    })
-
-    test('sort desc', async () => {
-        // Request
-        let res = await global.request
-            .get('/api/books?sort=-name')
-
-        // Assert
-        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res.body.map(x => x.name)).toEqual(['Book E', 'Book D', 'Book AC', 'Book AB', 'Book A'])
+        expect(res.body.map(x => x.name)).toEqual(['Book E', 'Book C', 'Book C', 'Book A', 'Book A'])
+        expect(res.body.map(x => x.author)).toEqual(['Author A', 'Author C', 'Author D', 'Author B', 'Author E'])
     })
 
     test('skip records', async () => {
@@ -98,7 +100,7 @@ describe('GET /books', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res.body.map(x => x.name)).toEqual(['Book D', 'Book E'])
+        expect(res.body.map(x => x.name)).toEqual(['Book C', 'Book E'])
     })
 
     test('limit records', async () => {
@@ -108,30 +110,30 @@ describe('GET /books', () => {
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
-        expect(res.body.map(x => x.name)).toEqual(['Book D'])
+        expect(res.body.map(x => x.name)).toEqual(['Book C'])
     })
 
     test('complex query', async () => {
         // Request
         let res = await global.request
-            .get('/api/books?price.gte=1&price.lte=4&sort=-name&skip=1&limit=2')
+            .get('/api/books?price.gte=1&price.lte=4&sort=-name&sort=price&skip=1&limit=2')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.body).toEqual([
             {
                 _id: expect.any(String),
-                author: 'Author C',
-                isbn: 1234567890123,
-                name: 'Book AC',
-                price: 3,
+                isbn: 1234567890124,
+                name: 'Book C',
+                author: 'Author D',
+                price: 4,
             },
             {
                 _id: expect.any(String),
-                author: 'Author AB',
-                isbn: 1234567890122,
-                name: 'Book AB',
-                price: 2,
+                isbn: 1234567890121,
+                name: 'Book A',
+                author: 'Author E',
+                price: 1,
             },
         ])
     })
@@ -222,10 +224,10 @@ describe('GET /books', () => {
 
     test('server error', async () => {
         // Prepare
-        const model = require('../../../models/books')
-        const err_msg = 'Unexpected Error'
+        const controller = require('../../../controllers/books')
+        const err_msg = 'Test Error'
         let spy = {
-            find: jest.spyOn(model, 'find').mockImplementation(() => {
+            fn: jest.spyOn(controller, 'clean_output_arr').mockImplementation(() => {
                 throw Error(err_msg)
             }),
         }
@@ -235,7 +237,7 @@ describe('GET /books', () => {
             .get('/api/books')
 
         // Assert
-        expect(spy.find).toHaveBeenCalledTimes(1)
+        expect(spy.fn).toHaveBeenCalledTimes(1)
 
         expect(res.status).toEqual(global.constants.HTTP_STATUS.SERVER_ERROR)
         expect(res.body).toEqual({

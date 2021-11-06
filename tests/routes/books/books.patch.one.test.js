@@ -1,7 +1,7 @@
 process.env.TEST_SUITE = __filename
 
 describe('PATCH /books/:isbn', () => {
-    test('success - return updated record', async () => {
+    test('happy path', async () => {
         // Prepare
         let isbn = global.seed_data.books[0].isbn
         let test_data = {
@@ -21,11 +21,11 @@ describe('PATCH /books/:isbn', () => {
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res1.body).toEqual({
-            _id: expect.any(String),
-            isbn: isbn,
-            name: test_data.name,
-            author: test_data.author,
-            price: test_data.price
+            acknowledged: true,
+            matchedCount: 1,
+            modifiedCount: 1,
+            upsertedCount: 0,
+            upsertedId: null,
         })
 
         // Assert record updated
@@ -88,9 +88,13 @@ describe('PATCH /books/:isbn', () => {
             .send(test_data)
 
         // Assert
-        expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
         expect(res.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.NO_DOCUMENT_FOUND)
+            acknowledged: true,
+            matchedCount: 0,
+            modifiedCount: 0,
+            upsertedCount: 0,
+            upsertedId: null,
         })
     })
 

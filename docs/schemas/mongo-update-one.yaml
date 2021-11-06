@@ -1,0 +1,19 @@
+type: object
+properties:
+  acknowledged:
+    type: boolean
+  matchedCount:
+    type: integer
+  modifiedCount:
+    type: integer
+  upsertedCount:
+    type: integer
+  upsertedId:
+    type: string
+    nullable: true
+example:
+  acknowledged: true
+  matchedCount: 1
+  modifiedCount: 1
+  upsertedCount: 0
+  upsertedId: null

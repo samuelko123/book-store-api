@@ -3,6 +3,7 @@ properties:
   isbn:
     type: integer
     pattern: ^[0-9]{13}$
+    description: must be 13-digit integer
   name:
     type: string
   author:

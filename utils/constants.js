@@ -9,6 +9,7 @@ module.exports = Object.freeze({
     },
     HTTP_STATUS: {
         OK: 200,
+        NO_CONTENT: 204,
         CREATED: 201,
         FOUND: 302,
         BAD_REQUEST: 400,
@@ -23,8 +24,10 @@ module.exports = Object.freeze({
         http: 'magenta',
         debug: 'white',
     },
+    MONGO_SCHEMAS: ['books','users'],
     MONGO_USER_ERRORS: [
         66, // update immutable field
+        121, // document validation failed
         11000, // duplicate key error
     ],
     OPEN_API_JSON: {
@@ -42,6 +45,6 @@ module.exports = Object.freeze({
         SHOULD_BE_NON_NEGATIVE: 'should be >= 0',
         UNSUPPORTED_MEDIA_TYPE: 'unsupported media type',
         UNKNOWN_QUERY_PARAMETER: 'Unknown query parameter',
-        VALIDATION_FAILED: 'validation failed',
+        FAIlED_VALIDATION: 'failed validation',
     },
 })

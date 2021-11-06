@@ -2,9 +2,9 @@ process.env.TEST_SUITE = __filename
 
 describe('winston logger', () => {
     const OLD_ENV = process.env
+    let logger
 
     beforeEach(() => {
-        jest.resetModules()
         process.env = { ...OLD_ENV }
     })
 
@@ -15,7 +15,9 @@ describe('winston logger', () => {
     test('debug for development', async () => {
         // Prepare
         process.env.NODE_ENV = 'development'
-        const logger = require('../../utils/logger')
+        jest.isolateModules(() => {
+            logger = require('../../utils/logger')
+        })
 
         // Assert
         expect(logger.level).toEqual('debug')
@@ -24,7 +26,9 @@ describe('winston logger', () => {
     test('info for production', async () => {
         // Prepare
         process.env.NODE_ENV = 'production'
-        const logger = require('../../utils/logger')
+        jest.isolateModules(() => {
+            logger = require('../../utils/logger')
+        })
 
         // Assert
         expect(logger.level).toEqual('http')

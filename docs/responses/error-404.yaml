@@ -1,7 +1,0 @@
-description: Not Found
-content:
-  application/json:
-    schema:
-      $ref: '../_index.yaml#/components/schemas/Error'
-    example:
-      error: 'No document found for query "{ field: value }" on model "demo"'

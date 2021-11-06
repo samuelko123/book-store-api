@@ -2,11 +2,22 @@ type: object
 properties:
   username:
     type: string
+    pattern: ^[a-z0-9]{6,}$
+    description:
+      <li>must be at least 6 characters long</li>
+      <li>must contain lowercase alphanumeric characters only</li>
   password:
     type: string
+    pattern: (?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])
+    description:
+      <li>must be at least 8 characters long</li>
+      <li>must contain at least one lower case character</li>
+      <li>must contain at least one upper case character</li>
+      <li>must contain at least one digit</li>
+      <li>must contain at least one special character</li>
   email:
     type: string
 example:
-  username: User A
+  username: user11
   email: user_a@gmail.com
   password: Passw0rd!

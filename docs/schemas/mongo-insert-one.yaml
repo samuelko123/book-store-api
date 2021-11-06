@@ -1,0 +1,9 @@
+type: object
+properties:
+  acknowledged:
+    type: boolean
+  insertedId:
+    type: string
+example:
+  acknowledged: true
+  insertedId: 6184ad765fe6ceb82c0a22dd
