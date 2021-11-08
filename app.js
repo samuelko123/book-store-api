@@ -86,8 +86,7 @@ module.exports.create = async (session_store) => {
             OpenApiValidator.middleware({
                 apiSpec: constants.OPEN_API_JSON.FILE,
                 validateRequests: false,
-                // validateResponses: true,
-                validateResponses: false,
+                validateResponses: true,
                 validateApiSpec: true,
                 ignoreUndocumented: false,
             }),

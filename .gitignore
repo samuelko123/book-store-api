@@ -15,6 +15,3 @@ logs/
 
 # Generated documentation
 /docs/openapi.json
-
-# TODO - documentation
-/doc
