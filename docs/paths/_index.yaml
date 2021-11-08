@@ -1,3 +1,10 @@
+/auth/login:
+  post:
+    $ref: './auth/login.yaml'
+/auth/logout:
+  get:
+    $ref: './auth/logout.yaml'
+
 /books:
   post:
     $ref: './books/post.one.yaml'
@@ -10,6 +17,7 @@
     $ref: './books/patch.one.yaml'
   delete:
     $ref: './books/delete.one.yaml'
+
 /users:
   post:
     $ref: './users/post.one.yaml'

@@ -24,6 +24,9 @@ async function start_server() {
         // create session store
         const session_store = await mongo.create_session_store()
 
+        // update super admin
+        await mongo.update_super_admin()
+
         // start the express server
         const server = await app.create(session_store)
         const port = process.env.PORT || 3000

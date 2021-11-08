@@ -40,7 +40,7 @@ describe('DELETE /books/:isbn', () => {
         })
     })
 
-    test('server error', async () => {
+    test('error handler', async () => {
         // Prepare
         let test_data = global.seed_data.books[0]
 

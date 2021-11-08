@@ -1,5 +1,6 @@
 const MongoClient = require('mongodb').MongoClient
 const MongoStore = require('connect-mongo')
+const bcrypt = require('bcryptjs')
 const constants = require('./utils/constants')
 const logger = require('./utils/logger')
 
@@ -55,5 +56,22 @@ module.exports = {
         let colls = await this.db.listCollections().toArray()
         colls = colls.map(x => x.name)
         return colls.includes(coll_name)
-    }
+    },
+
+    update_super_admin: async function () {
+        // update super admin account
+        await this.db.collection('users').updateOne(
+            { username: process.env.SUPER_ADMIN_USERNAME },
+            {
+                $set: {
+                    username: process.env.SUPER_ADMIN_USERNAME,
+                    password: await bcrypt.hash(process.env.SUPER_ADMIN_PASSWORD, constants.AUTH.SALT_WORK_FACTOR),
+                    email: process.env.SUPER_ADMIN_EMAIL,
+                    verified: true,
+                    role: 'admin',
+                }
+            },
+            { upsert: true }
+        )
+    },
 }

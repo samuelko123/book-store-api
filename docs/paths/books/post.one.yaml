@@ -21,5 +21,9 @@ responses:
     $ref: '../../_index.yaml#/components/responses/MongoInsertOne'
   '400':
     $ref: '../../_index.yaml#/components/responses/Http400'
+  '401':
+    $ref: '../../_index.yaml#/components/responses/Http401'
+  '403':
+    $ref: '../../_index.yaml#/components/responses/Http403'
   '415':
     $ref: '../../_index.yaml#/components/responses/Http415'

@@ -18,14 +18,6 @@ module.exports = {
       },
       password: {
          bsonType: 'string',
-         description: `
-            - must be at least 8 characters long
-            - must contain at least one lower case character
-            - must contain at least one upper case character
-            - must contain at least one digit
-            - must contain at least one special character
-         `,
-         pattern: '(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])',
       },
       email: {
          bsonType: 'string',

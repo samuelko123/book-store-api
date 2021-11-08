@@ -6,7 +6,6 @@ const helmet = require('helmet')
 const cors = require('cors')
 const morgan = require('morgan')
 const swaggerUi = require("swagger-ui-express")
-const OpenApiValidator = require('express-openapi-validator')
 const session = require('express-session')
 
 const { CustomError } = require('./utils/error')
@@ -81,14 +80,19 @@ module.exports.create = async (session_store) => {
     )
 
     // api validation
-    app.use(
-        OpenApiValidator.middleware({
-            apiSpec: constants.OPEN_API_JSON.FILE,
-            validateRequests: true,
-            validateResponses: (process.env.NODE_ENV !== 'production'),
-            validateApiSpec: false,
-        }),
-    )
+    if (process.env.NODE_ENV !== 'production') {
+        const OpenApiValidator = require('express-openapi-validator')
+        app.use(
+            OpenApiValidator.middleware({
+                apiSpec: constants.OPEN_API_JSON.FILE,
+                validateRequests: false,
+                // validateResponses: true,
+                validateResponses: false,
+                validateApiSpec: true,
+                ignoreUndocumented: false,
+            }),
+        )
+    }
 
     // api route
     app.use('/api', require('./routes'))
@@ -106,16 +110,18 @@ module.exports.create = async (session_store) => {
 
     // error route
     app.use((err, req, res, next) => {
+
+        // assign error status and log error
         try {
             if (
                 !!err.name
                 && err.name.startsWith('Mongo')
                 && constants.MONGO_USER_ERRORS.includes(err.code)
-            ){
+            ) {
                 // set http status to 400
                 err.status = constants.HTTP_STATUS.BAD_REQUEST
             }
-            
+
             // log error if http status is server error
             err.status = err.status || constants.HTTP_STATUS.SERVER_ERROR
             if (err.status >= 500 && err.status < 600) {
@@ -123,14 +129,19 @@ module.exports.create = async (session_store) => {
             } else {
                 logger.warn(err)
             }
-        } catch (err_in_handler){
+
+            // add header to Unauthorized response
+            if (err.status == constants.HTTP_STATUS.UNAUTHORIZED) {
+                res.set('WWW-Authenticate', 'Basic')
+            }
+        } catch (err_in_handler) {
             // log error during error handling
             logger.error(err_in_handler.stack)
         }
 
         res
             .status(err.status)
-            .json({ 'error': err.message })
+            .json({ error: err.message })
     })
 
     return app

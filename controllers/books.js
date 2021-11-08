@@ -16,35 +16,35 @@ function BookController() {
     this.findMany = mixins.findMany
     this.updateOne = mixins.updateOne
     this.deleteOne = mixins.deleteOne
-    this.bind_all_fn = mixins.bind_all_fn
+    this.check_schema = mixins.check_schema
 
-    this.clean_input_obj = function (doc) {
-        for (let key in doc) {
-            if (!(key in this.schema.properties)) {
-                throw new CustomError(constants.HTTP_STATUS.BAD_REQUEST, `not in schema: ${key}`)
+    this.clean_input_obj = async function (obj) {
+        this.check_schema(obj)
+
+        if ('isbn' in obj) {
+            obj.isbn = mongodb.Long.fromNumber(obj.isbn)
+        }
+
+        if ('price' in obj) {
+            if (isNaN(obj.price) || obj.price < 0){
+                throw new CustomError(constants.HTTP_STATUS.BAD_REQUEST, `${constants.MESSAGES.EXPECT_POS_NUM}: price`)
             }
-        }
 
-        if ('isbn' in doc) {
-            doc.isbn = mongodb.Long.fromNumber(doc.isbn)
-        }
-
-        if ('price' in doc) {
-            doc.price = mongodb.Double(doc.price)
+            obj.price = mongodb.Double(obj.price)
         }
     }
 
-    this.clean_output_obj = function (doc) {
-        if ('insertedId' in doc) {
-            doc.insertedId = doc.insertedId.toString()
+    this.clean_output_obj = function (obj) {
+        if ('insertedId' in obj) {
+            obj.insertedId = obj.insertedId.toString()
         }
 
-        if ('_id' in doc) {
-            doc._id = doc._id.toString()
+        if ('_id' in obj) {
+            obj._id = obj._id.toString()
         }
 
-        if ('price' in doc) {
-            doc.price = doc.price.valueOf()
+        if ('price' in obj) {
+            obj.price = obj.price.valueOf()
         }
     }
 

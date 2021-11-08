@@ -30,7 +30,7 @@ describe('GET /books/:isbn', () => {
         expect(res.body).toEqual({})
     })
 
-    test('server error', async () => {
+    test('error handler', async () => {
         // Prepare
         let test_data = global.seed_data.books[0]
 

@@ -1,7 +1,8 @@
+const bcrypt = require('bcryptjs')
 const { db } = require('../mongo')
 const constants = require('../utils/constants')
-const { CustomError } = require('../utils/error')
 const mixins = require('./_mixins')
+const { CustomError } = require('../utils/error')
 
 function UserController() {
     this.collection = db.collection('users')
@@ -16,8 +17,9 @@ function UserController() {
     this.findMany = mixins.findMany
     this.updateOne = mixins.updateOne
     this.deleteOne = mixins.deleteOne
+    this.check_schema = mixins.check_schema
 
-    this.add_defaults_to_obj = function (doc) {
+    this.add_defaults_to_obj = function (obj) {
         let defaults = {
             verified: false,
             role: 'user',
@@ -28,30 +30,55 @@ function UserController() {
         }
         
         for (let field in defaults) {
-            if (!(field in doc)) {
-                doc[field] = defaults[field]
+            if (!(field in obj)) {
+                obj[field] = defaults[field]
             }
         }
     }
 
-    this.clean_input_obj = function (doc) {
-        for (let key in doc) {
-            if (!(key in this.schema.properties)) {
-                throw new CustomError(constants.HTTP_STATUS.BAD_REQUEST, `not in schema: ${key}`)
+    this.clean_input_obj = async function (obj) {
+        this.check_schema(obj)
+
+        if ('username' in obj ){
+            if (!/^[a-z0-9]{6,}$/.test(obj.username)){
+                throw new CustomError(constants.HTTP_STATUS.BAD_REQUEST, constants.MESSAGES.INVALID_USERNAME)
             }
+        }
+        if ('password' in obj) {
+            if (!/(?=.{8,})/.test(obj.password)){
+                throw new CustomError(constants.HTTP_STATUS.BAD_REQUEST, constants.MESSAGES.INVALID_PASSWORD_LENGTH)
+            }
+
+            if (!/(?=.*[a-z])/.test(obj.password)){
+                throw new CustomError(constants.HTTP_STATUS.BAD_REQUEST, constants.MESSAGES.INVALID_PASSWORD_LOWERCASE)
+            }
+
+            if (!/(?=.*[A-Z])/.test(obj.password)){
+                throw new CustomError(constants.HTTP_STATUS.BAD_REQUEST, constants.MESSAGES.INVALID_PASSWORD_UPPERCASE)
+            }
+
+            if (!/(?=.*[0-9])/.test(obj.password)){
+                throw new CustomError(constants.HTTP_STATUS.BAD_REQUEST, constants.MESSAGES.INVALID_PASSWORD_DIGIT)
+            }
+
+            if (!/(?=.*[^A-Za-z0-9])/.test(obj.password)){
+                throw new CustomError(constants.HTTP_STATUS.BAD_REQUEST, constants.MESSAGES.INVALID_PASSWORD_SPECIAL_CHAR)
+            }
+
+            obj.password = await bcrypt.hash(obj.password, constants.AUTH.SALT_WORK_FACTOR)
         }
     }
 
-    this.clean_output_obj = function (doc) {
-        if ('insertedId' in doc) {
-            doc.insertedId = doc.insertedId.toString()
+    this.clean_output_obj = function (obj) {
+        if ('insertedId' in obj) {
+            obj.insertedId = obj.insertedId.toString()
         }
 
-        if ('_id' in doc) {
-            doc._id = doc._id.toString()
+        if ('_id' in obj) {
+            obj._id = obj._id.toString()
         }
 
-        delete doc.password
+        delete obj.password
     }
 
     mixins.bind_all_fn(this)

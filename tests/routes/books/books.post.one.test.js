@@ -48,7 +48,7 @@ describe('POST /books', () => {
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.DUPLICATE_KEY)
+            error: expect.stringContaining(global.constants.MESSAGES.DUP_KEY_ERR)
         })
 
         // Assert records not inserted
@@ -73,7 +73,7 @@ describe('POST /books', () => {
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.NOT_IN_SCHEMA)
+            error: expect.stringContaining(global.constants.MESSAGES.UNKNOWN_PROP)
         })
 
         // Assert records not inserted
@@ -98,7 +98,7 @@ describe('POST /books', () => {
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.SHOULD_BE_NON_NEGATIVE)
+            error: expect.stringContaining(global.constants.MESSAGES.EXPECT_POS_NUM)
         })
 
         // Assert records not inserted
@@ -123,7 +123,7 @@ describe('POST /books', () => {
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.MISSING_REQUIRED)
+            error: expect.stringContaining(global.constants.MESSAGES.MISSING_REQUIRED)
         })
 
         // Assert records not inserted
@@ -142,7 +142,7 @@ describe('POST /books', () => {
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.UNSUPPORTED_MEDIA_TYPE)
+            error: global.constants.MESSAGES.EXPECT_REQ_BODY
         })
 
         // Assert records not inserted

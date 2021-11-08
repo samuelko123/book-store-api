@@ -1,10 +1,10 @@
 process.env.TEST_SUITE = __filename
 
 describe('GET /users', () => {
-    test('no filters', async () => {
+    test('happy path', async () => {
         // Request
         let res = await global.request
-            .get(`/api/users`)
+            .get(`/api/users?role=user`)
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)

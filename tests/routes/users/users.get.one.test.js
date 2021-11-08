@@ -28,14 +28,14 @@ describe('GET /users/:username', () => {
     test('non-existent id', async () => {
         // Request
         let res = await global.request
-            .get('/api/users/no-such-user')
+            .get('/api/users/nosuchuser')
 
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.NO_CONTENT)
         expect(res.body).toEqual({})
     })
 
-    test('server error', async () => {
+    test('error handler', async () => {
         // Prepare
         let test_data = global.seed_data.books[0]
 

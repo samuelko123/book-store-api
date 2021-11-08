@@ -49,6 +49,35 @@ describe('PATCH /users/:username', () => {
         expect(res3.body.updated_at).not.toEqual(res2.body.updated_at)
     })
 
+    test('happy path - ensure password is hashed', async () => {
+        // Prepare
+        let username = global.seed_data.users[0].username
+        let test_data = {
+            password: global.seed_data.users[1].password
+        }
+
+        const { db } = require('../../../mongo')
+        let user_old = await db.collection('users').findOne({ username: username })
+        let hash_old = user_old.password
+
+        // Action
+        let res = await global.request
+            .patch(`/api/users/${username}`)
+            .send(test_data)
+
+        let user_new = await db.collection('users').findOne({ username: username })
+        let hash_new = user_new.password
+
+        // Assert response
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.OK)
+        expect(res.body.modifiedCount).toEqual(1)
+
+        // Assert password is hashed
+        expect(user_old.password.startsWith('$2a$' + global.constants.AUTH.SALT_WORK_FACTOR)).toEqual(true)
+        expect(user_new.password.startsWith('$2a$' + global.constants.AUTH.SALT_WORK_FACTOR)).toEqual(true)
+        expect(hash_old).not.toEqual(hash_new)
+    })
+
     test('invalid update - duplicate key', async () => {
         // Prepare
         let user = global.seed_data.users[0]
@@ -69,7 +98,7 @@ describe('PATCH /users/:username', () => {
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.DUPLICATE_KEY)
+            error: expect.stringContaining(global.constants.MESSAGES.DUP_KEY_ERR)
         })
 
         // Assert record not updated
@@ -90,7 +119,7 @@ describe('PATCH /users/:username', () => {
 
     test('non-existent id', async () => {
         // Prepare
-        let username = 'no such user'
+        let username = 'nosuchuser'
         let test_data = {
             email: 'new_email@gmail.com',
             role: 'admin',
@@ -132,7 +161,7 @@ describe('PATCH /users/:username', () => {
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.NOT_IN_SCHEMA)
+            error: expect.stringContaining(global.constants.MESSAGES.UNKNOWN_PROP)
         })
 
         // Assert record not updated
@@ -170,7 +199,7 @@ describe('PATCH /users/:username', () => {
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.IMMUTABLE_FIELD)
+            error: expect.stringContaining(global.constants.MESSAGES.IMMUTABLE_FIELD)
         })
 
         // Assert record not updated
@@ -200,7 +229,7 @@ describe('PATCH /users/:username', () => {
         // Assert response
         expect(res.status).toEqual(global.constants.HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE)
         expect(res.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.UNSUPPORTED_MEDIA_TYPE)
+            error: global.constants.MESSAGES.EXPECT_REQ_BODY
         })
     })
 })

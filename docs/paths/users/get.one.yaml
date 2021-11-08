@@ -16,3 +16,7 @@ responses:
     $ref: '../../_index.yaml#/components/responses/Http204'
   '400':
     $ref: '../../_index.yaml#/components/responses/Http400'
+  '401':
+    $ref: '../../_index.yaml#/components/responses/Http401'
+  '403':
+    $ref: '../../_index.yaml#/components/responses/Http403'

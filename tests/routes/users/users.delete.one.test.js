@@ -11,7 +11,7 @@ describe('DELETE /users/:username', () => {
             .delete(`/api/users/${test_data.username}`)
 
         let res2 = await global.request
-            .get('/api/users')
+            .get('/api/users?role=user')
 
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
@@ -25,9 +25,30 @@ describe('DELETE /users/:username', () => {
         expect(res2.body.length).toEqual(global.seed_data.users.length - 1)
     })
 
+    test('no permission', async () => {
+        // Prepare
+        let test_data = global.clone(global.seed_data.users)
+        test_data = test_data[0]
+
+        // Request
+        let res1 = await global.request
+            .post('/api/auth/login')
+            .auth(global.seed_data.users[1].username, global.seed_data.users[1].password)
+
+        let res2 = await global.request
+            .delete(`/api/users/${test_data}`)
+
+        // Assert
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.OK)
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.FORBIDDEN)
+        expect(res2.body).toEqual({
+            error: global.constants.MESSAGES.ADMIN_ONLY
+        })
+    })
+
     test('non-existent id', async () => {
         // Prepare
-        let test_data = 'no such user'
+        let test_data = 'nosuchuser'
 
         // Request
         let res = await global.request
@@ -41,7 +62,7 @@ describe('DELETE /users/:username', () => {
         })
     })
 
-    test('server error', async () => {
+    test('error handler', async () => {
         // Prepare
         let test_data = global.seed_data.users[0]
 

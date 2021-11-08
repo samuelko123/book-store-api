@@ -1,4 +1,5 @@
 process.env.TEST_SUITE = __filename
+const { db } = require('../../../mongo')
 
 describe('POST /users - single record', () => {
     test('happy path', async () => {
@@ -79,6 +80,26 @@ describe('POST /users - single record', () => {
         })
     })
 
+    test('happy path - ensure password is hashed', async () => {
+        // Prepare
+        const { db } = require('../../../mongo')
+        let test_data = global.clone(global.test_data.users)
+        test_data = test_data[0]
+
+        // Request
+        let res = await global.request
+            .post('/api/users')
+            .send(test_data)
+
+        let user = await db.collection('users').findOne({ username: test_data.username })
+
+        // Assert response
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.CREATED)
+
+        // Assert password is hashed
+        expect(user.password.startsWith('$2a$' + global.constants.AUTH.SALT_WORK_FACTOR)).toEqual(true)
+    })
+
     test('duplicate key', async () => {
         // Prepare
         let test_data = global.clone(global.seed_data.users)
@@ -90,12 +111,12 @@ describe('POST /users - single record', () => {
             .send(test_data)
 
         let res2 = await global.request
-            .get('/api/users')
+            .get('/api/users?role=user')
 
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.DUPLICATE_KEY)
+            error: expect.stringContaining(global.constants.MESSAGES.DUP_KEY_ERR)
         })
 
         // Assert no records inserted
@@ -115,12 +136,12 @@ describe('POST /users - single record', () => {
             .send(test_data)
 
         let res2 = await global.request
-            .get('/api/users')
+            .get('/api/users?role=user')
 
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.NOT_IN_SCHEMA)
+            error: expect.stringContaining(global.constants.MESSAGES.UNKNOWN_PROP)
         })
 
         // Assert no records inserted
@@ -128,11 +149,11 @@ describe('POST /users - single record', () => {
         expect(res2.body.length).toEqual(global.seed_data.users.length)
     })
 
-    test('invalid value', async () => {
+    test('invalid username - too short', async () => {
         // Prepare
         let test_data = global.clone(global.test_data.users)
         test_data = test_data[0]
-        test_data.password = 'invalid password'
+        test_data.username = 'user'
 
         // Request
         let res1 = await global.request
@@ -140,12 +161,137 @@ describe('POST /users - single record', () => {
             .send(test_data)
 
         let res2 = await global.request
-            .get('/api/users')
+            .get('/api/users?role=user')
 
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.body).toEqual({
-            error: expect.stringContaining('request.body.password should match pattern')
+            error: expect.stringContaining('username must')
+        })
+
+        // Assert no records inserted
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
+        expect(res2.body.length).toEqual(global.seed_data.users.length)
+    })
+
+    test('invalid password - too short', async () => {
+        // Prepare
+        let test_data = global.clone(global.test_data.users)
+        test_data = test_data[0]
+        test_data.password = 'abc'
+
+        // Request
+        let res1 = await global.request
+            .post('/api/users')
+            .send(test_data)
+
+        let res2 = await global.request
+            .get('/api/users?role=user')
+
+        // Assert response
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res1.body).toEqual({
+            error: expect.stringContaining('password must')
+        })
+
+        // Assert no records inserted
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
+        expect(res2.body.length).toEqual(global.seed_data.users.length)
+    })
+
+    test('invalid password - no lowercase', async () => {
+        // Prepare
+        let test_data = global.clone(global.test_data.users)
+        test_data = test_data[0]
+        test_data.password = 'PASSWORD'
+
+        // Request
+        let res1 = await global.request
+            .post('/api/users')
+            .send(test_data)
+
+        let res2 = await global.request
+            .get('/api/users?role=user')
+
+        // Assert response
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res1.body).toEqual({
+            error: expect.stringContaining('password must')
+        })
+
+        // Assert no records inserted
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
+        expect(res2.body.length).toEqual(global.seed_data.users.length)
+    })
+
+    test('invalid password - no uppercase', async () => {
+        // Prepare
+        let test_data = global.clone(global.test_data.users)
+        test_data = test_data[0]
+        test_data.password = 'password'
+
+        // Request
+        let res1 = await global.request
+            .post('/api/users')
+            .send(test_data)
+
+        let res2 = await global.request
+            .get('/api/users?role=user')
+
+        // Assert response
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res1.body).toEqual({
+            error: expect.stringContaining('password must')
+        })
+
+        // Assert no records inserted
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
+        expect(res2.body.length).toEqual(global.seed_data.users.length)
+    })
+
+    test('invalid password - no digit', async () => {
+        // Prepare
+        let test_data = global.clone(global.test_data.users)
+        test_data = test_data[0]
+        test_data.password = 'PASSword'
+
+        // Request
+        let res1 = await global.request
+            .post('/api/users')
+            .send(test_data)
+
+        let res2 = await global.request
+            .get('/api/users?role=user')
+
+        // Assert response
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res1.body).toEqual({
+            error: expect.stringContaining('password must')
+        })
+
+        // Assert no records inserted
+        expect(res2.status).toEqual(global.constants.HTTP_STATUS.OK)
+        expect(res2.body.length).toEqual(global.seed_data.users.length)
+    })
+
+    test('invalid password - no special char', async () => {
+        // Prepare
+        let test_data = global.clone(global.test_data.users)
+        test_data = test_data[0]
+        test_data.password = 'PASSword123'
+
+        // Request
+        let res1 = await global.request
+            .post('/api/users')
+            .send(test_data)
+
+        let res2 = await global.request
+            .get('/api/users?role=user')
+
+        // Assert response
+        expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res1.body).toEqual({
+            error: expect.stringContaining('password must')
         })
 
         // Assert no records inserted
@@ -165,12 +311,12 @@ describe('POST /users - single record', () => {
             .send(test_data)
 
         let res2 = await global.request
-            .get('/api/users')
+            .get('/api/users?role=user')
 
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.MISSING_REQUIRED)
+            error: expect.stringContaining(global.constants.MESSAGES.MISSING_REQUIRED)
         })
 
         // Assert no records inserted
@@ -184,12 +330,12 @@ describe('POST /users - single record', () => {
             .post('/api/users')
 
         let res2 = await global.request
-            .get('/api/users')
+            .get('/api/users?role=user')
 
         // Assert response
         expect(res1.status).toEqual(global.constants.HTTP_STATUS.UNSUPPORTED_MEDIA_TYPE)
         expect(res1.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.UNSUPPORTED_MEDIA_TYPE)
+            error: global.constants.MESSAGES.EXPECT_REQ_BODY
         })
 
         // Assert no records inserted

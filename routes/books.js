@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const controller = require('../controllers/books')
+const book_ctrl = require('../controllers/books')
+const auth_ctrl = require('../controllers/auth')
 
-router.post('/', controller.insertOne)
-router.get('/:isbn', controller.findOne)
-router.get('/', controller.findMany)
-router.patch('/:isbn', controller.updateOne)
-router.delete('/:isbn', controller.deleteOne)
+router.post('/', auth_ctrl.admin_only, book_ctrl.insertOne)
+router.get('/', book_ctrl.findMany)
+router.get('/:isbn', book_ctrl.findOne)
+router.patch('/:isbn', auth_ctrl.admin_only, book_ctrl.updateOne)
+router.delete('/:isbn', auth_ctrl.admin_only, book_ctrl.deleteOne)
 
 module.exports = router

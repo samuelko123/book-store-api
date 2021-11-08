@@ -1,0 +1,7 @@
+description: Forbidden. It means you do not have permission.
+content:
+  application/json:
+    schema:
+      $ref: '../_index.yaml#/components/schemas/Error'
+    example:
+      error: 'This resource is for admin only.'

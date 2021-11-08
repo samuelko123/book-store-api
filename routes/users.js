@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const controller = require('../controllers/users')
+const user_ctrl = require('../controllers/users')
+const auth_ctrl = require('../controllers/auth')
 
-router.post('/', controller.insertOne)
-router.get('/:username', controller.findOne)
-router.get('/', controller.findMany)
-router.patch('/:username', controller.updateOne)
-router.delete('/:username', controller.deleteOne)
+router.post('/', auth_ctrl.admin_only, user_ctrl.insertOne)
+router.get('/', auth_ctrl.admin_only, user_ctrl.findMany)
+router.get('/:username', auth_ctrl.admin_only, user_ctrl.findOne)
+router.patch('/:username', auth_ctrl.admin_only, user_ctrl.updateOne)
+router.delete('/:username', auth_ctrl.admin_only, user_ctrl.deleteOne)
 
 module.exports = router

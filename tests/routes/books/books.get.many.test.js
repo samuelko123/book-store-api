@@ -146,7 +146,7 @@ describe('GET /books', () => {
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.SHOULD_BE_NON_NEGATIVE)
+            error: expect.stringContaining(global.constants.MESSAGES.EXPECT_POS_INT)
         })
     })
 
@@ -158,7 +158,7 @@ describe('GET /books', () => {
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.SHOULD_BE_INTEGER)
+            error: expect.stringContaining(global.constants.MESSAGES.EXPECT_POS_INT)
         })
     })
 
@@ -170,7 +170,7 @@ describe('GET /books', () => {
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.SHOULD_BE_INTEGER)
+            error: expect.stringContaining(global.constants.MESSAGES.EXPECT_POS_INT)
         })
     })
 
@@ -182,7 +182,7 @@ describe('GET /books', () => {
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.SHOULD_BE_NON_NEGATIVE)
+            error: expect.stringContaining(global.constants.MESSAGES.EXPECT_POS_INT)
         })
     })
 
@@ -194,7 +194,7 @@ describe('GET /books', () => {
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.SHOULD_BE_INTEGER)
+            error: expect.stringContaining(global.constants.MESSAGES.EXPECT_POS_INT)
         })
     })
 
@@ -206,7 +206,7 @@ describe('GET /books', () => {
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.SHOULD_BE_INTEGER)
+            error: expect.stringContaining(global.constants.MESSAGES.EXPECT_POS_INT)
         })
     })
 
@@ -218,11 +218,23 @@ describe('GET /books', () => {
         // Assert
         expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
         expect(res.body).toEqual({
-            error: expect.stringContaining(global.constants.TEST_ERRORS.UNKNOWN_QUERY_PARAMETER)
+            error: expect.stringContaining(global.constants.MESSAGES.UNKNOWN_QUERY_PARAM)
         })
     })
 
-    test('server error', async () => {
+    test('invalid field (with operator)', async () => {
+        // Request
+        let res = await global.request
+            .get('/api/books?no_such_field.gt=1')
+
+        // Assert
+        expect(res.status).toEqual(global.constants.HTTP_STATUS.BAD_REQUEST)
+        expect(res.body).toEqual({
+            error: expect.stringContaining(global.constants.MESSAGES.UNKNOWN_QUERY_PARAM)
+        })
+    })
+
+    test('error handler', async () => {
         // Prepare
         const controller = require('../../../controllers/books')
         const err_msg = 'Test Error'
