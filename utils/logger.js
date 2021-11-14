@@ -13,20 +13,23 @@ function filterOnly(level) {
 }
 
 module.exports = winston.createLogger({
-    level: (process.env.NODE_ENV == 'production' ? 'http' : 'debug'),
+    level: 'http',
     format: winston.format.combine(
         winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        winston.format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
+        winston.format.prettyPrint()
     ),
     transports: [
         new winston.transports.Console({
-            format: winston.format.colorize({ all: true }),
+            format: winston.format.combine(
+                winston.format.colorize({ all: true }),
+                winston.format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`),
+            ),
             silent: (process.env.NODE_ENV == 'test'),
         }),
         new winston.transports.File({
             filename: 'logs/all.log',
             maxsize: 1 * 1000 * 1000, // 1 MB
-            maxFiles: 3
+            maxFiles: 3,
         }),
         new winston.transports.File({
             format: filterOnly('http'),

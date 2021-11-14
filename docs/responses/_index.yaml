@@ -1,16 +1,2 @@
-MongoInsertOne:
-  $ref: './mongo-insert-one.yaml'
-MongoUpdateOne:
-  $ref: './mongo-update-one.yaml'
-MongoDeleteOne:
-  $ref: './mongo-delete-one.yaml'
 Http400:
   $ref: './http-400.yaml'
-Http401:
-  $ref: './http-401.yaml'
-Http403:
-  $ref: './http-401.yaml'
-Http415:
-  $ref: './http-415.yaml'
-Http204:
-  $ref: './http-204.yaml'

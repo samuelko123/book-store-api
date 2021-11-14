@@ -5,20 +5,7 @@ BookDocument:
 BookDocuments:
   $ref: './book-docs.yaml'
 
-User:
-  $ref: './user.yaml'
-UserDocument:
-  $ref: './user-doc.yaml'
-UserDocuments:
-  $ref: './user-docs.yaml'
-
 MongoID:
   $ref: './mongo-id.yaml'
-MongoInsertOneResponse:
-  $ref: './mongo-insert-one.yaml'
-MongoUpdateOneResponse:
-  $ref: './mongo-update-one.yaml'
-MongoDeleteOneResponse:
-  $ref: './mongo-delete-one.yaml'
 Error:
   $ref: './error.yaml'

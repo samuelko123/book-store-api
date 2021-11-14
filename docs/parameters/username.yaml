@@ -1,8 +1,0 @@
-name: username
-in: path
-description: username of User object
-required: true
-schema:
-  $ref: '../_index.yaml#/components/schemas/User/properties/username'
-example:
-  user11

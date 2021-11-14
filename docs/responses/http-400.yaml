@@ -1,7 +1,7 @@
-description: Bad Request. It means request does not pass validation.
+description: Bad Request.
 content:
   application/json:
     schema:
       $ref: '../_index.yaml#/components/schemas/Error'
     example:
-      error: 'request.body should have required property "field"'
+      error: 'E11000 duplicate key error'

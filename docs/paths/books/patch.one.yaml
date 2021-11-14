@@ -15,12 +15,10 @@ requestBody:
 
 responses:
   '200':
-    $ref: '../../_index.yaml#/components/responses/MongoUpdateOne'
+    description: Return the updated Book Document
+    content:
+      application/json:
+        schema:
+          $ref: '../../_index.yaml#/components/schemas/BookDocument'
   '400':
     $ref: '../../_index.yaml#/components/responses/Http400'
-  '401':
-    $ref: '../../_index.yaml#/components/responses/Http401'
-  '403':
-    $ref: '../../_index.yaml#/components/responses/Http403'
-  '415':
-    $ref: '../../_index.yaml#/components/responses/Http415'

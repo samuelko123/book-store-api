@@ -1,5 +1,0 @@
-description: DeleteOne response from MongoDB
-content:
-  application/json:
-    schema:
-      $ref: '../_index.yaml#/components/schemas/MongoDeleteOneResponse'
