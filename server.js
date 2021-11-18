@@ -28,6 +28,7 @@ async function start_server() {
             logger.info(`Listening on port ${port}`)
         })
     } catch (err) {
+        console.error(err)
         logger.error(err)
     }
 }
