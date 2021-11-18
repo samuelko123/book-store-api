@@ -1,3 +1,4 @@
+const dotenv = require('dotenv')
 const logger = require('./utils/logger')
 
 async function start_server() {
@@ -6,7 +7,6 @@ async function start_server() {
         logger.info('Starting server')
 
         // read .env file
-        const dotenv = require('dotenv')
         dotenv.config()
 
         // generate documentation

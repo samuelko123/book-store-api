@@ -16,7 +16,6 @@ module.exports = winston.createLogger({
     level: 'http',
     format: winston.format.combine(
         winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        winston.format.prettyPrint()
     ),
     transports: [
         new winston.transports.Console({
