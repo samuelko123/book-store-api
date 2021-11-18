@@ -1,7 +1,5 @@
 ISBN:
   $ref: './isbn.yaml'
-Username:
-  $ref: './username.yaml'
 Limit:
   $ref: './limit.yaml'
 Skip:

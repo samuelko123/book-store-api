@@ -17,8 +17,6 @@ components:
     $ref: './responses/_index.yaml'
   schemas:
     $ref: './schemas/_index.yaml'
-  securitySchemes:
-    $ref: './security/_index.yaml'
 
 externalDocs:
   description: GitHub Repository

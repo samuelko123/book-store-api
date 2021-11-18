@@ -1,6 +1,6 @@
 module.exports = [
     {
-        isbn:  1234567890121,
+        isbn: 1234567890121,
         name: "Book A",
         author: 'Author E',
         price: 1,

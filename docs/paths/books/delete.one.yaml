@@ -7,10 +7,10 @@ parameters:
 
 responses:
   '200':
-    $ref: '../../_index.yaml#/components/responses/MongoDeleteOne'
+    description: Return the deleted Book Document
+    content:
+      application/json:
+        schema:
+          $ref: '../../_index.yaml#/components/schemas/BookDocument'
   '400':
     $ref: '../../_index.yaml#/components/responses/Http400'
-  '401':
-    $ref: '../../_index.yaml#/components/responses/Http401'
-  '403':
-    $ref: '../../_index.yaml#/components/responses/Http403'

@@ -7,12 +7,10 @@ parameters:
 
 responses:
   '200':
-    description: Return a Book Document
+    description: Return the found Book Document
     content:
       application/json:
         schema:
           $ref: '../../_index.yaml#/components/schemas/BookDocument'
-  '204':
-    $ref: '../../_index.yaml#/components/responses/Http204'
   '400':
     $ref: '../../_index.yaml#/components/responses/Http400'

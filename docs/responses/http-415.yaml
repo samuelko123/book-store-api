@@ -1,7 +1,0 @@
-description: Unsupported Media Type. It means missing request body in post or patch request.
-content:
-  application/json:
-    schema:
-      $ref: '../_index.yaml#/components/schemas/Error'
-    example:
-      error: 'unsupported media type undefined'
