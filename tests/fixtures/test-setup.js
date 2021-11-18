@@ -1,6 +1,10 @@
 const mongo = require('../../utils/mongo')
+const dotenv = require('dotenv')
 
 beforeAll(async () => {
+    // Read .env config
+    dotenv.config()
+
     // create db for each test suite
     const path = require('path')
     let db_name = 'db-' + path.basename(process.env.TEST_SUITE).split('.').join('-')
