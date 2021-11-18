@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This API supports Book Store operation",
   "scripts": {
-    "start": "node --unhandled-rejections=strict server.js",
+    "start": "node server.js",
     "dev": "nodemon server.js --ext js,yaml",
     "test": "jest",
     "codecov-upload": "node ./node_modules/.bin/codecov"
