@@ -1,14 +1,9 @@
 const mongo = require('../../utils/mongo')
-const dotenv = require('dotenv')
-
 beforeAll(async () => {
-    // Read .env config
-    dotenv.config()
-
     // create db for each test suite
     const path = require('path')
     let db_name = 'db-' + path.basename(process.env.TEST_SUITE).split('.').join('-')
-    let uri = process.env.mongo_uri_test.replace('?', db_name + '?')
+    let uri = process.env.MONGO_URI_TEST.replace('?', db_name + '?')
 
     // connect to mongo db
     await mongo.connect(uri)
