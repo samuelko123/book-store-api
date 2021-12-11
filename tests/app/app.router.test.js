@@ -10,7 +10,9 @@ describe('error handling', () => {
         expect(res.status).toEqual(global.constants.HTTP_STATUS.NOT_FOUND)
         expect(res.body).toEqual({ error: global.constants.MESSAGES.NOT_FOUND })
     })
+})
 
+describe('routing', () => {
     test('openapi json', async () => {
         // Request
         let res = await global.request
