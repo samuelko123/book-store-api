@@ -10,4 +10,4 @@ A simple CRUD API.
 
 ## Open API documentation
 
-* https://book-store-api-samuelko.herokuapp.com/
+* https://book-store-api.samuelko123.dev
