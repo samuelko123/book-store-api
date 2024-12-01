@@ -1,0 +1,23 @@
+# Environment variable files
+.env
+
+# Dependency directories
+node_modules/
+
+# Build directories
+build/
+
+# Coverage directories
+coverage/
+
+# Log directories
+logs/
+
+# Generated documentation
+/docs/openapi.json
+
+# TODO list
+TODO.md
+
+# Npm packages information
+package-lock.json
